@@ -1,0 +1,74 @@
+{
+  "navbar": {
+    "home": "Anasayfa",
+    "services": "Hizmetler",
+    "products": "Ürünler",
+    "blog": "Blog",
+    "appointment": "Randevu"
+  },
+  "home": {
+    "aboutTitle": "Hakkımızda",
+    "aboutText": "Vücut, zihin ve ruh için doğal çözümler",
+    "aboutLink": "Detaylı Bilgi →",
+    "heroTitle": "Anastasia König Masaj Salonu",
+    "heroSubtitle": "Doğallığın dokunuşuyla sağlığınızı şımartın",
+    "cta": "🟣 Online Randevu Al",
+    "services": {
+      "title": "Hizmetlerimiz",
+      "aromatherapy": "Aromaterapi Masajı",
+      "reflexology": "Refleksoloji",
+      "deepTissue": "Derin Doku Masajı",
+      "antiCellulite": "Anti-selülit Masajı",
+      "all": "Tüm Hizmetleri Gör →"
+    },
+    "products": {
+      "title": "Öne Çıkan Ürünler",
+      "addToCart": "Sepete Ekle",
+      "all": "Tüm Ürünleri Gör →"
+    },
+    "blog": {
+      "title": "Blog'dan Seçmeler",
+      "readMore": "Devamını Oku →",
+      "all": "Tüm Blog Yazıları →"
+    }
+  },
+  "contact": {
+  "title": "İletişim",
+  "address": "Adres",
+  "phone": "Telefon",
+  "email": "E-posta"
+},
+"footer": {
+  "privacy": "Gizlilik",
+  "kvkk": "KVKK",
+  "about": "Hakkımızda",
+  "appointment": "Randevu",
+  "rights": "Tüm hakları saklıdır."
+},
+"services": {
+    "title": "Tüm Hizmetlerimiz",
+    "items": [
+      {
+        "name": "Aromaterapi Masajı",
+        "description": "Bitkisel yağlarla yapılan rahatlatıcı masaj türüdür."
+      },
+      {
+        "name": "Refleksoloji",
+        "description": "Ayak tabanına uygulanan baskılarla iç organları uyarır."
+      },
+      {
+        "name": "Derin Doku Masajı",
+        "description": "Kas iskelet sistemi üzerine etkili, yoğun baskılı masaj."
+      },
+      {
+        "name": "Anti-selülit Masajı",
+        "description": "Cilt altındaki dolaşımı artıran özel tekniklerle yapılır."
+      }
+    ]
+  },
+  "products": {
+    "all": "Tüm Ürünler",
+    "addToCart": "Sepete Ekle",
+    "noDescription": "Ürün açıklaması bulunmamaktadır."
+  }
+}

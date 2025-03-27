@@ -1,0 +1,75 @@
+{
+  "navbar": {
+    "home": "Startseite",
+    "services": "Dienstleistungen",
+    "products": "Produkte",
+    "blog": "Blog",
+    "appointment": "Termin"
+  },
+  "home": {
+    "aboutTitle": "Über Uns",
+    "aboutText": "Natürliche Lösungen für Körper, Geist und Seele",
+    "aboutLink": "Mehr erfahren →",
+    "heroTitle": "Anastasia König Massagesalon",
+    "heroSubtitle": "Verwöhnen Sie Ihre Gesundheit mit der Berührung der Natur",
+    "cta": "🟣 Online Termin Buchen",
+    "services": {
+      "title": "Unsere Dienstleistungen",
+      "aromatherapy": "Aromatherapie Massage",
+      "reflexology": "Reflexzonenmassage",
+      "deepTissue": "Tiefengewebsmassage",
+      "antiCellulite": "Anti-Cellulite Massage",
+      "all": "Alle Dienstleistungen anzeigen →"
+    },
+    "products": {
+      "title": "Empfohlene Produkte",
+      "addToCart": "In den Warenkorb",
+      "all": "Alle Produkte anzeigen →"
+    },
+    "blog": {
+      "title": "Aus dem Blog",
+      "readMore": "Weiterlesen →",
+      "all": "Alle Blogbeiträge →"
+    }
+  },
+  "contact": {
+    "title": "Kontakt",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "email": "E-Mail"
+  },
+  "footer": {
+    "privacy": "Datenschutz",
+    "kvkk": "KVKK",
+    "about": "Über Uns",
+    "appointment": "Termin",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "services": {
+    "title": "Alle unsere Dienstleistungen",
+    "items": [
+      {
+        "name": "Aromatherapie-Massage",
+        "description": "Eine entspannende Massageart mit ätherischen Ölen."
+      },
+      {
+        "name": "Reflexzonenmassage",
+        "description": "Regt die inneren Organe durch Druck auf die Fußsohlen an."
+      },
+      {
+        "name": "Tiefengewebsmassage",
+        "description": "Eine Massage mit starkem Druck, die auf das Muskel-Skelett-System wirkt."
+      },
+      {
+        "name": "Anti-Cellulite-Massage",
+        "description": "Fördert die Durchblutung unter der Haut mit speziellen Techniken."
+      }
+    ]
+  },
+  "products": {
+    "all": "Alle Produkte",
+    "addToCart": "In den Warenkorb",
+    "noDescription": "Keine Produktbeschreibung vorhanden."
+  }
+}
+

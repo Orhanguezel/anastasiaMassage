@@ -1,0 +1,74 @@
+{
+  "navbar": {
+    "home": "Home",
+    "services": "Services",
+    "products": "Products",
+    "blog": "Blog",
+    "appointment": "Appointment"
+  },
+  "home": {
+    "aboutTitle": "About Us",
+    "aboutText": "Natural solutions for body, mind and soul",
+    "aboutLink": "Learn More →",
+    "heroTitle": "Anastasia König Massage Salon",
+    "heroSubtitle": "Pamper your health with the touch of nature",
+    "cta": "🟣 Book Appointment Online",
+    "services": {
+      "title": "Our Services",
+      "aromatherapy": "Aromatherapy Massage",
+      "reflexology": "Reflexology",
+      "deepTissue": "Deep Tissue Massage",
+      "antiCellulite": "Anti-cellulite Massage",
+      "all": "View All Services →"
+    },
+    "products": {
+      "title": "Featured Products",
+      "addToCart": "Add to Cart",
+      "all": "View All Products →"
+    },
+    "blog": {
+      "title": "From Our Blog",
+      "readMore": "Read More →",
+      "all": "View All Blog Posts →"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "kvkk": "KVKK",
+    "about": "About Us",
+    "appointment": "Appointment",
+    "rights": "All rights reserved."
+  },
+  "services": {
+    "title": "All Our Services",
+    "items": [
+      {
+        "name": "Aromatherapy Massage",
+        "description": "A relaxing massage type performed with herbal oils."
+      },
+      {
+        "name": "Reflexology",
+        "description": "Stimulates internal organs by applying pressure to the soles of the feet."
+      },
+      {
+        "name": "Deep Tissue Massage",
+        "description": "An intense pressure massage that affects the musculoskeletal system."
+      },
+      {
+        "name": "Anti-cellulite Massage",
+        "description": "Applied with special techniques to improve circulation under the skin."
+      }
+    ]
+  },
+  "products": {
+    "all": "All Products",
+    "addToCart": "Add to Cart",
+    "noDescription": "No product description available."
+  }
+}

@@ -1,7 +1,21 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import styled from "styled-components";
+
+// Appointment tipi tanımı
+type Appointment = {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  serviceType: string;
+  date: string;
+  time: string;
+  note?: string;
+  status: string;
+};
 
 const Table = styled.table`
   width: 100%;
@@ -37,16 +51,18 @@ const Button = styled.button<{ color?: string }>`
 `;
 
 export default function AdminAppointmentsPage() {
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     const token = localStorage.getItem("token");
-    axios
-      .get("/appointments", {
+    try {
+      const res = await axios.get("/appointments", {
         headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setAppointments(res.data))
-      .catch((err) => console.error(err));
+      });
+      setAppointments(res.data);
+    } catch (err) {
+      console.error("Veri çekme hatası:", err);
+    }
   };
 
   useEffect(() => {
@@ -56,12 +72,14 @@ export default function AdminAppointmentsPage() {
   const handleStatus = async (id: string, status: string) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.put(`/appointments/${id}/status`, { status }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      fetchData(); // refresh
+      await axios.put(
+        `/appointments/${id}/status`,
+        { status },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      fetchData();
     } catch (err) {
-      console.error("Durum güncelleme hatası", err);
+      console.error("Durum güncelleme hatası:", err);
     }
   };
 
@@ -73,7 +91,7 @@ export default function AdminAppointmentsPage() {
       });
       fetchData();
     } catch (err) {
-      console.error("Silme hatası", err);
+      console.error("Silme hatası:", err);
     }
   };
 
@@ -94,19 +112,27 @@ export default function AdminAppointmentsPage() {
           </tr>
         </thead>
         <tbody>
-          {appointments.map((a: any) => (
+          {appointments.map((a) => (
             <tr key={a._id}>
               <Td>{a.name}</Td>
               <Td>{a.email}</Td>
               <Td>{a.phone}</Td>
               <Td>{a.serviceType}</Td>
-              <Td>{a.date} – {a.time}</Td>
+              <Td>
+                {a.date} – {a.time}
+              </Td>
               <Td>{a.note || "-"}</Td>
               <Td>{a.status}</Td>
               <Td>
-                <Button color="#2ecc71" onClick={() => handleStatus(a._id, "confirmed")}>Onayla</Button>
-                <Button color="#e67e22" onClick={() => handleStatus(a._id, "cancelled")}>İptal</Button>
-                <Button color="#e74c3c" onClick={() => handleDelete(a._id)}>Sil</Button>
+                <Button color="#2ecc71" onClick={() => handleStatus(a._id, "confirmed")}>
+                  Onayla
+                </Button>
+                <Button color="#e67e22" onClick={() => handleStatus(a._id, "cancelled")}>
+                  İptal
+                </Button>
+                <Button color="#e74c3c" onClick={() => handleDelete(a._id)}>
+                  Sil
+                </Button>
               </Td>
             </tr>
           ))}

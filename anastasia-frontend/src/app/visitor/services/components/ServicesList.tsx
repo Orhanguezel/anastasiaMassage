@@ -52,7 +52,11 @@ const iconMap = [<FaLeaf />, <FaSpa />, <FaHandsHelping />, <FaHeartbeat />];
 
 export default function ServicesList() {
   const { t } = useTranslation();
-  const serviceList = t("services.items", { returnObjects: true });
+
+  const serviceList = t("services.items", { returnObjects: true }) as {
+    name: string;
+    description: string;
+  }[];
 
   return (
     <Wrapper
@@ -62,7 +66,7 @@ export default function ServicesList() {
     >
       <Title>{t("services.title", "Tüm Hizmetlerimiz")}</Title>
       <Grid>
-        {serviceList.map((s: any, i: number) => (
+        {serviceList.map((s, i) => (
           <Card
             key={i}
             initial={{ opacity: 0, scale: 0.95 }}
@@ -79,3 +83,4 @@ export default function ServicesList() {
     </Wrapper>
   );
 }
+

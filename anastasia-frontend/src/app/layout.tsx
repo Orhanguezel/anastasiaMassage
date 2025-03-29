@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import Providers from "@/app/providers/Providers";
 
 export const metadata: Metadata = {
-  title: "Anastasia Masaj Salonu",
+  title: "Anastasia König Massagesalon",
   description: "Doğallığın dokunuşuyla sağlığınızı şımartın",
 };
 

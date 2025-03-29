@@ -47,17 +47,17 @@ export default function CartPage() {
   });
 
   const total = items.reduce(
-    (acc, i) => acc + i.product.price * i.quantity,
+    (acc, i) => acc + i.price * (i.quantity || 1),
     0
   );
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await axios.post("/orders", {
         items: items.map((i) => ({
-          product: i.product._id,
-          quantity: i.quantity,
+          product: i._id,
+          quantity: i.quantity || 1,
         })),
         shippingAddress: form,
         totalPrice: total,
@@ -85,20 +85,20 @@ export default function CartPage() {
             </thead>
             <tbody>
               {items.map(i => (
-                <tr key={i.product._id}>
-                  <td>{i.product.name}</td>
+                <tr key={i._id}>
+                  <td>{i.name}</td>
                   <td>
                     <input
                       type="number"
                       value={i.quantity}
                       min={1}
-                      onChange={(e) => dispatch(updateQuantity({ id: i.product._id, qty: +e.target.value }))}
+                      onChange={(e) => dispatch(updateQuantity({ id: i._id, qty: +e.target.value }))}
                       style={{ width: "60px" }}
                     />
                   </td>
-                  <td>{i.product.price * i.quantity} €</td>
+                  <td>{(i.price * (i.quantity || 1)).toFixed(2)} €</td>
                   <td>
-                    <button onClick={() => dispatch(removeFromCart(i.product._id))}>❌</button>
+                    <button onClick={() => dispatch(removeFromCart(i._id))}>❌</button>
                   </td>
                 </tr>
               ))}

@@ -2,8 +2,8 @@
 
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { FaLeaf, FaSpa, FaHandsHelping, FaHeartbeat } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -27,7 +27,7 @@ const Grid = styled.div`
 
 const Card = styled(motion.div)`
   background: ${({ theme }) => theme.cardBackground || "#f9f9f9"};
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
   display: flex;
@@ -35,14 +35,18 @@ const Card = styled(motion.div)`
   align-items: center;
 `;
 
-const IconWrapper = styled.div`
-  font-size: 2rem;
-  color: ${({ theme }) => theme.primary || "rebeccapurple"};
+const ImageWrapper = styled.div`
+  width: 100%;
+  height: 140px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
   margin-bottom: 1rem;
 `;
 
 const Label = styled.p`
   font-weight: 600;
+  font-size: 1rem;
 `;
 
 const SeeAll = styled(Link)`
@@ -69,19 +73,19 @@ export default function ServicesSection() {
 
   const services = [
     {
-      icon: <FaLeaf />,
+      image: "/services/aromatherapy.jpg",
       label: t("home.services.aromatherapy", "Aromaterapi Masajı"),
     },
     {
-      icon: <FaSpa />,
+      image: "/services/reflexology.jpg",
       label: t("home.services.reflexology", "Refleksoloji"),
     },
     {
-      icon: <FaHandsHelping />,
+      image: "/services/deep-tissue.jpg",
       label: t("home.services.deepTissue", "Derin Doku Masajı"),
     },
     {
-      icon: <FaHeartbeat />,
+      image: "/services/anti-cellulite.jpg",
       label: t("home.services.antiCellulite", "Anti-selülit Masajı"),
     },
   ];
@@ -103,7 +107,14 @@ export default function ServicesSection() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
           >
-            <IconWrapper>{s.icon}</IconWrapper>
+            <ImageWrapper>
+              <Image
+                src={s.image}
+                alt={s.label}
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </ImageWrapper>
             <Label>{s.label}</Label>
           </Card>
         ))}

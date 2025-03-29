@@ -3,8 +3,8 @@ const nextConfig = {
   i18n: {
     locales: ["tr", "en", "de"],
     defaultLocale: "tr",
-    output: "standalone",
   },
+  output: "standalone", 
 };
 
 module.exports = nextConfig;

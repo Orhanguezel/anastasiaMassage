@@ -57,22 +57,28 @@ export default function ProductForm({ product, onSuccess }: Props) {
 
   const [image, setImage] = useState<File | null>(null);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const formData = new FormData();
 
     Object.entries(form).forEach(([key, value]) => {
       if (key === "tags") {
-        formData.append(key, JSON.stringify(value.split(",").map(t => t.trim())));
+        formData.append(
+          key,
+          JSON.stringify(
+            (value as string).split(",").map((t: string) => t.trim())
+          )
+        );
       } else {
-        formData.append(key, value);
+        formData.append(key, value as string);
       }
     });
+    
 
     if (image) formData.append("image", image);
 

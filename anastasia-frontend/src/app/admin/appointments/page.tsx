@@ -1,4 +1,10 @@
-"use client";
+
+
+
+export default function Page() {
+  return <div>Admin Randevular Sayfası yapım aşamasında.</div>;
+}
+/*"use client";
 
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
@@ -136,3 +142,4 @@ export default function AdminAppointmentsPage() {
     </div>
   );
 }
+*/

@@ -77,7 +77,7 @@ export default function AdminAppointmentsPage() {
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchData();
+      fetchData(); // refresh
     } catch (err) {
       console.error("Durum güncelleme hatası:", err);
     }

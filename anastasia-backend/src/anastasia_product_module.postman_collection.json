@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "Anastasia - Product API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "product-module-anastasia"
+  },
+  "item": [
+    {
+      "name": "📦 Get All Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url-anastasia}}/products",
+          "host": ["{{url-anastasia}}"],
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "📦 Get Product By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url-anastasia}}/products/{{productId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["products", "{{productId}}"]
+        }
+      }
+    },
+    {
+      "name": "➕ Create Product (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "name", "value": "Lavanta Yağı", "type": "text" },
+            { "key": "description", "value": "Rahatlatıcı etkili doğal yağ", "type": "text" },
+            { "key": "price", "value": "129.99", "type": "text" },
+            { "key": "stock", "value": "50", "type": "text" },
+            { "key": "category", "value": "yağ", "type": "text" },
+            { "key": "tags", "value": "lavanta,rahatlatıcı", "type": "text" },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/image.jpg"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/products",
+          "host": ["{{url-anastasia}}"],
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "✏️ Update Product (Admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "name", "value": "Güncellenmiş Lavanta Yağı", "type": "text" },
+            { "key": "price", "value": "149.90", "type": "text" },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/new-image.jpg"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/products/{{productId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["products", "{{productId}}"]
+        }
+      }
+    },
+    {
+      "name": "🗑️ Delete Product (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/products/{{productId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["products", "{{productId}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url-anastasia",
+      "value": "http://localhost:5011/api"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "productId",
+      "value": ""
+    }
+  ]
+}

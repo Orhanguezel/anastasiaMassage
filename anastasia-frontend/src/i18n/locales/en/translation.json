@@ -70,5 +70,26 @@
     "all": "All Products",
     "addToCart": "Add to Cart",
     "noDescription": "No product description available."
-  }
+  },
+  "login": {
+  "title": "Login",
+  "email": "Email",
+  "password": "Password",
+  "submit": "Login",
+  "loading": "Logging in...",
+  "success": "🎉 Successfully logged in!",
+  "error": "❌ Login failed. Please check your credentials."
+},
+"register": {
+  "title": "Register",
+  "name": "Your Name",
+  "email": "Email",
+  "password": "Password",
+  "submit": "Register",
+  "loading": "Registering...",
+  "success": "✅ Registration successful! Redirecting to login...",
+  "error": "❌ Registration failed. Please check your info."
+}
+
+
 }

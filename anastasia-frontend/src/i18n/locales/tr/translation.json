@@ -70,5 +70,48 @@
     "all": "Tüm Ürünler",
     "addToCart": "Sepete Ekle",
     "noDescription": "Ürün açıklaması bulunmamaktadır."
+  },
+  "login": {
+  "title": "Giriş Yap",
+  "email": "E-posta",
+  "password": "Şifre",
+  "submit": "Giriş Yap",
+  "loading": "Giriş yapılıyor...",
+  "success": "🎉 Başarıyla giriş yaptınız!",
+  "error": "❌ Giriş başarısız. Bilgilerinizi kontrol edin."
+},
+"register": {
+  "title": "Kayıt Ol",
+  "name": "Adınız",
+  "email": "E-posta",
+  "password": "Şifre",
+  "submit": "Kayıt Ol",
+  "loading": "Kayıt yapılıyor...",
+  "success": "✅ Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.",
+  "error": "❌ Kayıt başarısız. Bilgileri kontrol edin."
+},
+"product": {
+    "pageTitle": "🛒 Ürünler",
+    "add": "➕ Yeni Ürün Ekle",
+    "all": "Tümü",
+    "name": "Ürün Adı",
+    "category": "Kategori",
+    "price": "Fiyat (€)",
+    "stock": "Stok",
+    "image": "Görsel",
+    "actions": "İşlemler",
+    "search": "Ürün Ara...",
+    "deleted": "🗑️ Ürün silindi",
+    "deleteError": "❌ Silme işlemi başarısız",
+    "fetchError": "❌ Ürünler alınamadı",
+    "confirmDelete": "Silmek istediğinize emin misiniz?"
+  },
+  "common": {
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "cancel": "Vazgeç"
   }
+
+
+
 }

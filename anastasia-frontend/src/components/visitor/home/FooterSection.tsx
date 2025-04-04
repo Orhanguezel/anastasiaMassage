@@ -57,7 +57,7 @@ export default function FooterSection() {
         </Link>
       </Menu>
       <Copyright>
-        © {new Date().getFullYear()} Anastasia König Masaj Salonu.{" "}
+        © {new Date().getFullYear()} Anastasia König Massagesalon{" "}
         {t("footer.rights", "Tüm hakları saklıdır.")}.
       </Copyright>
     </FooterWrapper>

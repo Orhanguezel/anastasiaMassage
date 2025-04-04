@@ -36,7 +36,7 @@ import {
   StickyMenu,
   MobileMenuLink,
   MobileMenu,
-} from "./NavbarStyles"; // Import styled components
+} from "./NavbarStyles";
 
 export default function Navbar() {
   const [hasMounted, setHasMounted] = useState(false);
@@ -64,55 +64,25 @@ export default function Navbar() {
 
   const desktopMenuItems = (
     <>
-      <MenuItem>
-        <MenuLink href="/">{t("navbar.home")}</MenuLink>
-      </MenuItem>
-      <MenuItem>
-        <MenuLink href="/visitor/services">{t("navbar.services")}</MenuLink>
-      </MenuItem>
-      <MenuItem>
-        <MenuLink href="/visitor/products">{t("navbar.products")}</MenuLink>
-      </MenuItem>
-      <MenuItem>
-        <MenuLink href="/visitor/blogs">{t("navbar.blog")}</MenuLink>
-      </MenuItem>
-      <MenuItem>
-        <MenuLink href="/visitor/appointment">
-          {t("navbar.appointment")}
-        </MenuLink>
-      </MenuItem>
+      <MenuItem><MenuLink href="/">{t("navbar.home")}</MenuLink></MenuItem>
+      <MenuItem><MenuLink href="/visitor/services">{t("navbar.services")}</MenuLink></MenuItem>
+      <MenuItem><MenuLink href="/visitor/products">{t("navbar.products")}</MenuLink></MenuItem>
+      <MenuItem><MenuLink href="/visitor/blogs">{t("navbar.blog")}</MenuLink></MenuItem>
+      <MenuItem><MenuLink href="/visitor/appointment">{t("navbar.appointment")}</MenuLink></MenuItem>
+      <MenuItem><MenuLink href="/login">Login</MenuLink></MenuItem>
+      <MenuItem><MenuLink href="/register">Register</MenuLink></MenuItem>
     </>
   );
 
   const mobileMenuItems = (
     <>
-      <MobileMenuLink href="/" onClick={() => setMobileOpen(false)}>
-        {t("navbar.home")}
-      </MobileMenuLink>
-      <MobileMenuLink
-        href="/visitor/services"
-        onClick={() => setMobileOpen(false)}
-      >
-        {t("navbar.services")}
-      </MobileMenuLink>
-      <MobileMenuLink
-        href="/visitor/products"
-        onClick={() => setMobileOpen(false)}
-      >
-        {t("navbar.products")}
-      </MobileMenuLink>
-      <MobileMenuLink
-        href="/visitor/blogs"
-        onClick={() => setMobileOpen(false)}
-      >
-        {t("navbar.blog")}
-      </MobileMenuLink>
-      <MobileMenuLink
-        href="/visitor/appointment"
-        onClick={() => setMobileOpen(false)}
-      >
-        {t("navbar.appointment")}
-      </MobileMenuLink>
+      <MobileMenuLink href="/" onClick={() => setMobileOpen(false)}>{t("navbar.home")}</MobileMenuLink>
+      <MobileMenuLink href="/visitor/services" onClick={() => setMobileOpen(false)}>{t("navbar.services")}</MobileMenuLink>
+      <MobileMenuLink href="/visitor/products" onClick={() => setMobileOpen(false)}>{t("navbar.products")}</MobileMenuLink>
+      <MobileMenuLink href="/visitor/blogs" onClick={() => setMobileOpen(false)}>{t("navbar.blog")}</MobileMenuLink>
+      <MobileMenuLink href="/visitor/appointment" onClick={() => setMobileOpen(false)}>{t("navbar.appointment")}</MobileMenuLink>
+      <MobileMenuLink href="/login" onClick={() => setMobileOpen(false)}>Login</MobileMenuLink>
+      <MobileMenuLink href="/register" onClick={() => setMobileOpen(false)}>Register</MobileMenuLink>
     </>
   );
 
@@ -126,7 +96,6 @@ export default function Navbar() {
             exit={{ y: -50, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Logo */}
             <LogoWrapper href="/">
               <LogoImage src={logoSrc} alt="Logo" width={40} height={40} />
               <LogoTextWrapper>
@@ -135,10 +104,8 @@ export default function Navbar() {
               </LogoTextWrapper>
             </LogoWrapper>
 
-            {/* Desktop Menü */}
             <DesktopMenu>{desktopMenuItems}</DesktopMenu>
 
-            {/* Sağda: Tema / Dil / Hamburger */}
             <RightControls>
               <ThemeToggle onClick={toggle}>
                 {isDark ? <FaSun /> : <FaMoon />}
@@ -153,7 +120,6 @@ export default function Navbar() {
               </Hamburger>
             </RightControls>
 
-            {/* Mobil Menü */}
             <AnimatePresence>
               {mobileOpen && (
                 <MobileMenu
@@ -173,19 +139,11 @@ export default function Navbar() {
       <NavbarWrapper>
         <TopBar>
           <SocialLinks>
-            <a href="https://instagram.com" target="_blank">
-              <FaInstagram />
-            </a>
-            <a href="https://facebook.com" target="_blank">
-              <FaFacebook />
-            </a>
-            <a href="https://wa.me/905321234567" target="_blank">
-              <FaWhatsapp />
-            </a>
+            <a href="https://instagram.com" target="_blank"><FaInstagram /></a>
+            <a href="https://facebook.com" target="_blank"><FaFacebook /></a>
+            <a href="https://wa.me/905321234567" target="_blank"><FaWhatsapp /></a>
           </SocialLinks>
-          <Phone>
-            <FaPhone /> 0531 311 92 95
-          </Phone>
+          <Phone><FaPhone /> 0531 311 92 95</Phone>
         </TopBar>
 
         <CenterSection>

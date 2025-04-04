@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "\ud83d\uded2 Anastasia Cart Module",
+    "_postman_id": "cart-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83d\udecd\ufe0f Get User Cart",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/cart",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "cart"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u2795 Add To Cart",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 2\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/cart/add",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "cart",
+            "add"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd3c Increase Quantity",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/cart/increase/{{productId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "cart",
+            "increase",
+            "{{productId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd3d Decrease Quantity",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/cart/decrease/{{productId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "cart",
+            "decrease",
+            "{{productId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u274c Remove Product from Cart",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/cart/remove/{{productId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "cart",
+            "remove",
+            "{{productId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83e\uddf9 Clear Cart",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/cart/clear",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "cart",
+            "clear"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "📬 Anastasia Email Module",
+    "_postman_id": "anastasia-email-module",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "📥 Get All Emails (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/emails",
+          "host": ["{{url-anastasia}}"],
+          "path": ["emails"]
+        }
+      }
+    },
+    {
+      "name": "🔍 Get Email by ID (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/emails/{{emailId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["emails", "{{emailId}}"]
+        }
+      }
+    },
+    {
+      "name": "🗑️ Delete Email (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/emails/{{emailId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["emails", "{{emailId}}"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "\ud83d\udcac Anastasia FAQ Module",
+    "_postman_id": "faq-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83d\udcc4 Get All FAQs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url-anastasia}}/faqs",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "faqs"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u2795 Create FAQ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"question\": \"Masajdan \\u00f6nce yemek yemeli miyim?\",\n  \"answer\": \"Masajdan en az 1 saat \\u00f6nce yemek yememeniz \\u00f6nerilir.\",\n  \"category\": \"Genel\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/faqs",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "faqs"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\uddd1\ufe0f Delete FAQ",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/faqs/{{faqId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "faqs",
+            "{{faqId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

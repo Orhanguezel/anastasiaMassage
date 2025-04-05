@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "🔔 Anastasia Notification Module",
+    "_postman_id": "anastasia-notification-module",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "📬 Create Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Yeni Randevu Bildirimi\",\n  \"message\": \"Yeni bir randevu talebi alındı.\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/notifications",
+          "host": ["{{url-anastasia}}"],
+          "path": ["notifications"]
+        }
+      }
+    },
+    {
+      "name": "📋 Get All Notifications",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/notifications",
+          "host": ["{{url-anastasia}}"],
+          "path": ["notifications"]
+        }
+      }
+    },
+    {
+      "name": "❌ Delete Notification",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/notifications/{{notificationId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["notifications", "{{notificationId}}"]
+        }
+      }
+    }
+  ]
+}

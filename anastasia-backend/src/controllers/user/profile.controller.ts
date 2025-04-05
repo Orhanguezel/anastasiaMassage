@@ -9,7 +9,8 @@ import User from "../../models/user.models";
 // Get logged-in user's profile
 export const getUserProfile = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user!.id).select("-password");
+
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
@@ -25,10 +26,11 @@ export const updateUserProfile = asyncHandler(
 
     const updatedFields = { name, email, phone, addresses };
 
-    const user = await User.findByIdAndUpdate(req.user.id, updatedFields, {
+    const user = await User.findByIdAndUpdate(req.user?.id, updatedFields, {
       new: true,
       runValidators: true,
     }).select("-password");
+    
 
     if (!user) {
       res.status(404).json({ message: "User not found" });

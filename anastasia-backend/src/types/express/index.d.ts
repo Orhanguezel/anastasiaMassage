@@ -6,7 +6,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: IUser;
-      uploadType?: "profile" | "product" | "category" | "blog" | "default";
+      uploadType?: "profile" | "product" | "category" | "blog" | "gallery"| "service" |"default";
     }
   }
 }

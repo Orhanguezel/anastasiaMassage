@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "\ud83c\udf9f\ufe0f Anastasia Coupon Module",
+    "_postman_id": "5372319b-8221-4376-93c8-e7378884ebed",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\u2705 Create Coupon (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"ANASTASIA10\",\n  \"discount\": 10,\n  \"expiresAt\": \"2025-05-04T23:39:41.372704\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/coupons",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "coupons"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udccb Get All Coupons (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/coupons",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "coupons"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd0d Check Coupon By Code (Public)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{url-anastasia}}/coupons/check/ANASTASIA10",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "coupons",
+            "check",
+            "ANASTASIA10"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u270f\ufe0f Update Coupon (Admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"discount\": 15,\n  \"isActive\": true\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/coupons/{{couponId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "coupons",
+            "{{couponId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\uddd1\ufe0f Delete Coupon (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/coupons/{{couponId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "coupons",
+            "{{couponId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

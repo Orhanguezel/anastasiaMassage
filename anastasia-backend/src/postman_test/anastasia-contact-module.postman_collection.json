@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "\ud83d\udce9 Anastasia Contact Messages Module",
+    "_postman_id": "c2f77d68-247c-4448-b434-76bcb8bd09d7",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83d\udce8 Send Contact Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"subject\": \"Soru\",\n  \"message\": \"Randevu saatleri hakk\\u0131nda bilgi almak istiyorum.\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/contact",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "contact"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd10 Get All Contact Messages (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/contact",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "contact"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u274c Delete Contact Message (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/contact/{{messageId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "contact",
+            "{{messageId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

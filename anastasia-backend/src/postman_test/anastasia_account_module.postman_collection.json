@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "👤 Anastasia Account Module",
+    "_postman_id": "anastasia-account-module-v2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "📄 Get My Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/account/me",
+          "host": ["{{url-anastasia}}"],
+          "path": ["account", "me"]
+        }
+      }
+    },
+    {
+      "name": "✏️ Update My Profile",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Orhan König\",\n  \"email\": \"orhan@example.com\",\n  \"phone\": \"+491234567890\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/account/me/update",
+          "host": ["{{url-anastasia}}"],
+          "path": ["account", "me", "update"]
+        }
+      }
+    },
+    {
+      "name": "🔒 Update My Password",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"test123\",\n  \"newPassword\": \"newpassword123\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/account/me/password",
+          "host": ["{{url-anastasia}}"],
+          "path": ["account", "me", "password"]
+        }
+      }
+    },
+    {
+      "name": "📬 Update Notification Preferences",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailNotifications\": true,\n  \"smsNotifications\": false\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/account/me/notifications",
+          "host": ["{{url-anastasia}}"],
+          "path": ["account", "me", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "🌐 Update Social Media Links",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"facebook\": \"https://facebook.com/orhan\",\n  \"instagram\": \"https://instagram.com/orhan\",\n  \"twitter\": \"https://twitter.com/orhan\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/account/me/social",
+          "host": ["{{url-anastasia}}"],
+          "path": ["account", "me", "social"]
+        }
+      }
+    }
+  ]
+}

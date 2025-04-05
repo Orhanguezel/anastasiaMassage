@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "🖼️ Anastasia Gallery Module",
+    "_postman_id": "anastasia-gallery-module",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "🖼️ Upload Image (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/gallery/upload",
+          "host": ["{{url-anastasia}}"],
+          "path": ["gallery", "upload"]
+        }
+      }
+    },
+    {
+      "name": "📂 Get All Gallery Items (Public)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url-anastasia}}/gallery",
+          "host": ["{{url-anastasia}}"],
+          "path": ["gallery"]
+        }
+      }
+    },
+    {
+      "name": "🗑️ Delete Gallery Item (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/gallery/{{galleryItemId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["gallery", "{{galleryItemId}}"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+    "info": {
+      "name": "📬 Anastasia Email - Extra Endpoints",
+      "_postman_id": "anastasia-email-extra",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "📥 Fetch Incoming Emails (Manual)",
+        "request": {
+          "method": "GET",
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}",
+              "type": "text"
+            }
+          ],
+          "url": {
+            "raw": "{{url-anastasia}}/emails/fetch",
+            "host": ["{{url-anastasia}}"],
+            "path": ["emails", "fetch"]
+          }
+        }
+      },
+      {
+        "name": "📌 Mark Email as Read",
+        "request": {
+          "method": "PATCH",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"isRead\": true\n}"
+          },
+          "url": {
+            "raw": "{{url-anastasia}}/emails/{{emailId}}/read",
+            "host": ["{{url-anastasia}}"],
+            "path": ["emails", "{{emailId}}", "read"]
+          }
+        }
+      },
+      {
+        "name": "📌 Mark Email as Unread",
+        "request": {
+          "method": "PATCH",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"isRead\": false\n}"
+          },
+          "url": {
+            "raw": "{{url-anastasia}}/emails/{{emailId}}/read",
+            "host": ["{{url-anastasia}}"],
+            "path": ["emails", "{{emailId}}", "read"]
+          }
+        }
+      }
+    ]
+  }
+  

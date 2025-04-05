@@ -1,0 +1,109 @@
+{
+  "info": {
+    "name": "\ud83d\udd14 Anastasia Notification Module",
+    "_postman_id": "3d7d23e0-db12-4602-8e10-2c7bf955e088",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83d\udce5 Create Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Yeni Randevu Talebi\",\n  \"message\": \"Yeni bir randevu talebi al\\u0131nd\\u0131.\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/notifications",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udcec Get My Notifications",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/notifications",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u2705 Mark Notification As Read",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/notifications/{{notificationId}}/read",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notificationId}}",
+            "read"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\uddd1\ufe0f Delete Notification",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/notifications/{{notificationId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notificationId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

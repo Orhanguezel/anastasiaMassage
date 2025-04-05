@@ -1,5 +1,3 @@
-// src/middleware/uploadMiddleware.ts
-
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
@@ -17,11 +15,14 @@ const UPLOAD_FOLDERS = {
   product: "product-images",
   category: "category-images",
   blog: "blog-images",
+  gallery: "gallery",
+  service: "service-images",
   default: "",
 } as const;
 
 type UploadFolderKeys = keyof typeof UPLOAD_FOLDERS;
 
+// TypeScript için request'e uploadType ekliyoruz
 declare global {
   namespace Express {
     interface Request {
@@ -30,7 +31,7 @@ declare global {
   }
 }
 
-
+// 📁 Gerekli klasörleri oluştur
 Object.values(UPLOAD_FOLDERS).forEach((folder) => {
   const fullPath = path.join(BASE_UPLOAD_DIR, folder);
   if (!fs.existsSync(fullPath)) {
@@ -38,13 +39,9 @@ Object.values(UPLOAD_FOLDERS).forEach((folder) => {
   }
 });
 
-
+// 📂 Dosya depolama ayarı
 const storage = multer.diskStorage({
-  destination: (
-    req: Request,
-    _file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
-  ) => {
+  destination: (req, _file, cb) => {
     const uploadFolder =
       req.uploadType && UPLOAD_FOLDERS[req.uploadType]
         ? UPLOAD_FOLDERS[req.uploadType]
@@ -53,44 +50,36 @@ const storage = multer.diskStorage({
     const fullPath = path.join(BASE_UPLOAD_DIR, uploadFolder);
     cb(null, fullPath);
   },
-
-  filename: (
-    _req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, filename: string) => void
-  ) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(file.originalname)}`;
-    cb(null, uniqueSuffix);
+  filename: (_req, file, cb) => {
+    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(
+      file.originalname
+    )}`;
+    cb(null, uniqueName);
   },
 });
 
-
-const fileFilter = (
-  _req: Request,
-  file: Express.Multer.File,
-  cb: FileFilterCallback
-) => {
+const fileFilter = (_req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimeValid = allowedTypes.test(file.mimetype);
 
   if (extValid && mimeValid) {
-    cb(null, true);
+    cb(null, true); // ✅ Geçerli dosya
   } else {
-    cb(new Error("Only .jpeg, .jpg, .png, .gif, and .webp formats are allowed!"));
+    console.warn(`❌ Unsupported file: ${file.originalname}`);
+    cb(null, false); // ✅ Hata fırlatmadan sadece yüklemeyi engelle
   }
 };
 
 
+// 🎯 Multer yapılandırması
 const upload = multer({
   storage,
-  limits: { fileSize: 20 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1024 * 1024 }, 
   fileFilter,
 });
 
-
+// 🌐 uploads klasörünü statik olarak sun
 export const serveUploads = express.static(BASE_UPLOAD_DIR);
-
-
 export { BASE_URL };
 export default upload;

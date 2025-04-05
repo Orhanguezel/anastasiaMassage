@@ -1,3 +1,4 @@
+// src/models/cart.models.ts
 import { Schema, model, Types } from "mongoose";
 
 const cartSchema = new Schema(
@@ -27,7 +28,7 @@ const cartSchema = new Schema(
         totalPriceAtAddition: {
           type: Number,
           required: true,
-          default: 0, 
+          default: 0,
         },
       },
     ],

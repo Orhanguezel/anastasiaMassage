@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "Anastasia Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"items\": [\n    {\n      \"product\": \"PRODUCT_OBJECT_ID_HERE\",\n      \"quantity\": 2\n    }\n  ],\n  \"shippingAddress\": {\n    \"name\": \"Jane Doe\",\n    \"phone\": \"1234567890\",\n    \"street\": \"Musterstra\\u00dfe 1\",\n    \"city\": \"Berlin\",\n    \"postalCode\": \"10115\",\n    \"country\": \"Germany\"\n  },\n  \"totalPrice\": 299.98\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/api/orders",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Orders",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/api/orders",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mark Order as Delivered",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/api/orders/ORDER_ID_HERE/deliver",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "ORDER_ID_HERE",
+            "deliver"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Order Status",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"isDelivered\": true\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/api/orders/ORDER_ID_HERE/status",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "ORDER_ID_HERE",
+            "status"
+          ]
+        }
+      }
+    }
+  ]
+}

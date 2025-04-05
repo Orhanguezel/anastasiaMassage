@@ -1,0 +1,28 @@
+{
+    "info": {
+      "name": "📊 Anastasia Dashboard Module",
+      "_postman_id": "dashboard-module-anastasia",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "📈 Get Admin Dashboard Stats",
+        "request": {
+          "method": "GET",
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}",
+              "type": "text"
+            }
+          ],
+          "url": {
+            "raw": "{{url-anastasia}}/dashboard",
+            "host": ["{{url-anastasia}}"],
+            "path": ["dashboard"]
+          }
+        }
+      }
+    ]
+  }
+  

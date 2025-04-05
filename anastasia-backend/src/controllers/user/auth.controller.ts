@@ -6,7 +6,7 @@ import User from "../../models/user.models";
 import { generateToken } from "../../utils/token";
 import { hashPassword, comparePasswords } from "../../utils/authUtils";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:5000";
+const BASE_URL = process.env.BASE_URL;
 
 // Register User
 export const registerUser = asyncHandler(
@@ -118,7 +118,7 @@ export const changePassword = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user.id).select("+password");
+    const user = await User.findById(req.user!.id).select("-password");
     if (!user || !(await comparePasswords(currentPassword, user.password))) {
       res.status(401).json({ message: "Invalid current password" });
       return;

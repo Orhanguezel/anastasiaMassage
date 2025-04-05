@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
+// src/routes/order.routes.ts
+import express from "express";
 import {
   createOrder,
   getAllOrders,
@@ -10,24 +11,12 @@ import { authenticate, authorizeRoles } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-// ✅ Create Order (optional: if user is authenticated, attach user)
+// Create order
 router.post("/", authenticate, createOrder);
 
-// ✅ Admin Endpoints
+// Admin endpoints
 router.get("/", authenticate, authorizeRoles("admin"), getAllOrders);
-
-router.put(
-  "/:id/deliver",
-  authenticate,
-  authorizeRoles("admin"),
-  markOrderAsDelivered
-);
-
-router.put(
-  "/:id/status",
-  authenticate,
-  authorizeRoles("admin"),
-  updateOrderStatus
-);
+router.put("/:id/deliver", authenticate, authorizeRoles("admin"), markOrderAsDelivered);
+router.put("/:id/status", authenticate, authorizeRoles("admin"), updateOrderStatus);
 
 export default router;

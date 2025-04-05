@@ -1,0 +1,170 @@
+{
+  "info": {
+    "name": "\ud83d\udcdd Anastasia Blog Module",
+    "_postman_id": "blog-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83c\udf10 Get All Blogs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url-anastasia}}/blogs",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "blogs"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd0d Get Blog by Slug",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url-anastasia}}/blogs/{{slug}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "blogs",
+            "{{slug}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u2795 Create Blog",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "New Blog Title",
+              "type": "text"
+            },
+            {
+              "key": "content",
+              "value": "Blog content goes here...",
+              "type": "text"
+            },
+            {
+              "key": "category",
+              "value": "beslenme",
+              "type": "text"
+            },
+            {
+              "key": "author",
+              "value": "Admin",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/blogs",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "blogs"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udcdd Update Blog",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "Updated Title",
+              "type": "text"
+            },
+            {
+              "key": "content",
+              "value": "Updated content...",
+              "type": "text"
+            },
+            {
+              "key": "category",
+              "value": "vegan",
+              "type": "text"
+            },
+            {
+              "key": "author",
+              "value": "Editor",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/blogs/{{blogId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "blogs",
+            "{{blogId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u274c Delete Blog",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/blogs/{{blogId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "blogs",
+            "{{blogId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

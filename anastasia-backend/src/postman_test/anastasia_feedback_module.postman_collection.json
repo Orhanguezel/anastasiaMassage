@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "\ud83d\udcac Anastasia Feedback Module",
+    "_postman_id": "feedback-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\u270d\ufe0f Create Feedback (Public)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Elena\",\n  \"email\": \"elena@example.com\",\n  \"message\": \"\u00c7ok memnun kald\u0131m, te\u015fekk\u00fcr ederim!\",\n  \"rating\": 5\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/feedbacks",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "feedbacks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udccb Get All Feedbacks (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/feedbacks",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "feedbacks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd04 Toggle Feedback Publish",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/feedbacks/{{feedbackId}}/toggle",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "feedbacks",
+            "{{feedbackId}}",
+            "toggle"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\uddd1\ufe0f Delete Feedback",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/feedbacks/{{feedbackId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "feedbacks",
+            "{{feedbackId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,10 +1,11 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+// src/models/product.models.ts
+import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface IProduct extends Document {
   name: string;
   description?: string;
   price: number;
-  stock: number;
+  stockRef?: Types.ObjectId; 
   category: string;
   image: string;
   tags?: string[];
@@ -18,7 +19,7 @@ const productSchema: Schema<IProduct> = new Schema(
     name: { type: String, required: true },
     description: { type: String },
     price: { type: Number, required: true },
-    stock: { type: Number, default: 0 },
+    stockRef: { type: Schema.Types.ObjectId, ref: "Stock" }, 
     category: { type: String, required: true },
     image: { type: String, default: "https://via.placeholder.com/150" },
     tags: [{ type: String }],
@@ -29,3 +30,4 @@ const productSchema: Schema<IProduct> = new Schema(
 
 const Product: Model<IProduct> = mongoose.model<IProduct>("Product", productSchema);
 export default Product;
+

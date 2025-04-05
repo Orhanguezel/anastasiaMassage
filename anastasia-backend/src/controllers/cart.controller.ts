@@ -1,6 +1,8 @@
 import { type Request, type Response } from "express";
 import Cart from "../models/cart.models";
 import Product from "../models/product.models";
+import type { IProduct } from "../models/product.models";
+import { Types } from "mongoose";
 
 export const getUserCart = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -16,9 +18,7 @@ export const getUserCart = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    cart.totalPrice = cart.items.reduce((total, item) => {
-      return total + item.quantity * item.priceAtAddition;
-    }, 0);
+    cart.totalPrice = cart.items.reduce((total, item) => total + item.quantity * item.priceAtAddition, 0);
     await cart.save();
     res.json(cart);
   } catch (err) {
@@ -76,17 +76,14 @@ export const increaseQuantity = async (req: Request, res: Response): Promise<voi
     if (!cart) return void res.status(404).json({ message: "Cart not found" });
 
     const itemIndex = cart.items.findIndex((item) => {
-      return (
-        item.product &&
-        typeof (item.product as any)._id !== "undefined" &&
-        (item.product as any)._id.toString() === productId
-      );
+      const product = item.product as IProduct;
+      return product && (product._id as Types.ObjectId).equals(new Types.ObjectId(productId));
     });
-    
+
     if (itemIndex === -1)
       return void res.status(404).json({ message: "Item not found in cart" });
 
-    const product = cart.items[itemIndex].product as any;
+    const product = cart.items[itemIndex].product as IProduct;
     if (cart.items[itemIndex].quantity >= product.stock)
       return void res.status(400).json({ message: "Cannot exceed available stock" });
 
@@ -102,7 +99,6 @@ export const increaseQuantity = async (req: Request, res: Response): Promise<voi
   }
 };
 
-
 export const decreaseQuantity = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
@@ -114,13 +110,10 @@ export const decreaseQuantity = async (req: Request, res: Response): Promise<voi
     if (!cart) return void res.status(404).json({ message: "Cart not found" });
 
     const itemIndex = cart.items.findIndex((item) => {
-      return (
-        item.product &&
-        typeof (item.product as any)._id !== "undefined" &&
-        (item.product as any)._id.toString() === productId
-      );
+      const product = item.product as IProduct;
+      return product && (product._id as Types.ObjectId).equals(new Types.ObjectId(productId));
     });
-    
+
     if (itemIndex === -1) return void res.status(404).json({ message: "Item not found" });
 
     if (cart.items[itemIndex].quantity > 1) {
@@ -150,14 +143,10 @@ export const removeFromCart = async (req: Request, res: Response): Promise<void>
     if (!cart) return void res.status(404).json({ message: "Cart not found" });
 
     const itemIndex = cart.items.findIndex((item) => {
-      return (
-        item.product &&
-        typeof (item.product as any)._id !== "undefined" &&
-        (item.product as any)._id.toString() === productId
-      );
+      const product = item.product as IProduct;
+      return product && (product._id as Types.ObjectId).equals(new Types.ObjectId(productId));
     });
-    
-    
+
     if (itemIndex === -1)
       return void res.status(404).json({ message: "Item not found in cart" });
 
@@ -172,7 +161,6 @@ export const removeFromCart = async (req: Request, res: Response): Promise<void>
   }
 };
 
-
 export const clearCart = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
@@ -182,6 +170,7 @@ export const clearCart = async (req: Request, res: Response): Promise<void> => {
     const cart = await Cart.findOne({ user: userId });
     if (!cart) return void res.status(404).json({ message: "Cart not found" });
     if (cart.items.length === 0) return void res.status(400).json({ message: "Cart is already empty" });
+
     cart.items.splice(0, cart.items.length);
     cart.totalPrice = 0;
     await cart.save();
@@ -191,4 +180,3 @@ export const clearCart = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Error clearing cart", err });
   }
 };
-

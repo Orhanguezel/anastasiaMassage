@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "\ud83d\udcb3 Anastasia Payment Module",
+    "_postman_id": "payment-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83e\uddfe Create Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order\": \"{{orderId}}\",\n  \"amount\": 249.9,\n  \"method\": \"cash_on_delivery\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/payments",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "payments"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udcc4 Get All Payments (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/payments",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "payments"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\ud83d\udd0d Get Payment by Order ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/payments/order/{{orderId}}",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "payments",
+            "order",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u2705 Mark Payment as Paid",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/payments/{{paymentId}}/mark-paid",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "payments",
+            "{{paymentId}}",
+            "mark-paid"
+          ]
+        }
+      }
+    }
+  ]
+}

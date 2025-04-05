@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "🧖 Anastasia Service Module",
+    "_postman_id": "anastasia-service-module",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "➕ Create New Service",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "title", "value": "Reflexzonenmassage", "type": "text" },
+            { "key": "shortDescription", "value": "Gezielte Druckmassage für innere Organe", "type": "text" },
+            { "key": "detailedDescription", "value": "Reflexzonenmassage aktiviert körpereigene Heilkräfte durch gezielten Druck auf Fußreflexzonen.", "type": "text" },
+            { "key": "price", "value": "149.90", "type": "text" },
+            { "key": "durationMinutes", "value": "50", "type": "text" },
+            { "key": "isActive", "value": "true", "type": "text" },
+            { "key": "images", "type": "file", "src": "/path/to/image1.jpg" },
+            { "key": "images", "type": "file", "src": "/path/to/image2.jpg" }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/services",
+          "host": ["{{url-anastasia}}"],
+          "path": ["services"]
+        }
+      }
+    },
+    {
+      "name": "📋 Get All Services (Public)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{url-anastasia}}/services",
+          "host": ["{{url-anastasia}}"],
+          "path": ["services"]
+        }
+      }
+    },
+    {
+      "name": "🔍 Get Service by ID (Public)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{url-anastasia}}/services/{{serviceId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["services", "{{serviceId}}"]
+        }
+      }
+    },
+    {
+      "name": "✏️ Update Service",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "title", "value": "Aromatherapie Massage", "type": "text" },
+            { "key": "shortDescription", "value": "Entspannende Aromatherapie mit ätherischen Ölen", "type": "text" },
+            { "key": "detailedDescription", "value": "Diese Massage nutzt natürliche ätherische Öle zur Beruhigung und Regeneration von Körper und Geist.", "type": "text" },
+            { "key": "price", "value": "199.90", "type": "text" },
+            { "key": "durationMinutes", "value": "60", "type": "text" },
+            { "key": "isActive", "value": "true", "type": "text" },
+            { "key": "images", "type": "file", "src": "/path/to/image3.jpg" },
+            { "key": "images", "type": "file", "src": "/path/to/image4.jpg" }
+          ]
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/services/{{serviceId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["services", "{{serviceId}}"]
+        }
+      }
+    },
+    {
+      "name": "🗑️ Delete Service",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/services/{{serviceId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["services", "{{serviceId}}"]
+        }
+      }
+    }
+  ]
+}
+

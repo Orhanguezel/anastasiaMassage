@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "\u2699\ufe0f Anastasia Settings Module",
+    "_postman_id": "settings-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "\ud83d\udcc4 Get All Settings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/settings",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "settings"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u2795 Upsert Setting",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"key\": \"salon_email\",\n  \"value\": \"info@anastasia.com\"\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/settings",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "settings"
+          ]
+        }
+      }
+    },
+    {
+      "name": "\u274c Delete Setting",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/settings/salon_email",
+          "host": [
+            "{{url-anastasia}}"
+          ],
+          "path": [
+            "settings",
+            "salon_email"
+          ]
+        }
+      }
+    }
+  ]
+}

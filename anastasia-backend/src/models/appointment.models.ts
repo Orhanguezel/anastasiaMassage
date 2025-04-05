@@ -10,6 +10,7 @@ export interface IAppointment extends Document {
   note?: string;
   date: string;
   time: string;
+  service: Schema.Types.ObjectId;
   status: "pending" | "confirmed" | "cancelled";
   createdAt: Date;
 }
@@ -22,6 +23,8 @@ const appointmentSchema = new Schema<IAppointment>({
   note: { type: String },
   date: { type: String, required: true },
   time: { type: String, required: true },
+  service: { type: Schema.Types.ObjectId, ref: "Service", required: true },
+
   status: {
     type: String,
     enum: ["pending", "confirmed", "cancelled"],

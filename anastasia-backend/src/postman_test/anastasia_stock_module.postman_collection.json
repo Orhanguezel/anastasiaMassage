@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "📦 Anastasia Stock Module",
+    "_postman_id": "stock-module-anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "➕ Create Stock",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"product\": \"{{productId}}\",\n  \"quantity\": 100\n}"
+        },
+        "url": {
+          "raw": "{{url-anastasia}}/stocks",
+          "host": ["{{url-anastasia}}"],
+          "path": ["stocks"]
+        }
+      }
+    },
+    {
+      "name": "📋 Get All Stocks",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/stocks",
+          "host": ["{{url-anastasia}}"],
+          "path": ["stocks"]
+        }
+      }
+    },
+    {
+      "name": "❌ Delete Stock",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{url-anastasia}}/stocks/{{stockId}}",
+          "host": ["{{url-anastasia}}"],
+          "path": ["stocks", "{{stockId}}"]
+        }
+      }
+    }
+  ]
+}

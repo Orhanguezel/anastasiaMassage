@@ -1,152 +1,135 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import { useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import {
+  fetchAppointments,
+  updateAppointmentStatus,
+  deleteAppointment,
+} from "@/store/appointmentsSlice";
 import { toast } from "react-toastify";
 
-type Appointment = {
-  _id: string;
-  name: string;
-  email: string;
-  phone: string;
-  serviceType: string;
-  date: string;
-  time: string;
-  note?: string;
-  status: string;
-};
-
-const Wrapper = styled.div`
-  padding: 2rem;
+const Container = styled.div`
+  max-width: 1100px;
+  margin: 2rem auto;
 `;
 
-const Title = styled.h1`
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 2rem;
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  background: ${({ theme }) => theme.cardBackground || "#fff"};
-  border-radius: 8px;
-  overflow: hidden;
+  background: ${({ theme }) => theme.backgroundSecondary};
 `;
 
 const Th = styled.th`
-  background: ${({ theme }) => theme.backgroundAlt || "#eee"};
-  padding: 12px;
   text-align: left;
+  padding: 10px;
+  background: ${({ theme }) => theme.backgroundAlt};
+  border-bottom: 1px solid ${({ theme }) => theme.border || "#ccc"};
 `;
 
 const Td = styled.td`
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  border-bottom: 1px solid ${({ theme }) => theme.border || "#eee"};
 `;
 
 const Button = styled.button<{ color?: string }>`
-  margin-right: 8px;
   padding: 6px 12px;
+  background: ${({ color }) => color || "#3498db"};
+  color: white;
   border: none;
   border-radius: 6px;
-  color: #fff;
-  background-color: ${({ color }) => color || "#3498db"};
+  margin-right: 6px;
   cursor: pointer;
 
   &:hover {
-    opacity: 0.85;
+    opacity: 0.9;
   }
 `;
 
-export default function AdminAppointmentsPage() {
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-
-  const fetchData = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.get("/appointments", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAppointments(res.data);
-    } catch (err) {
-      toast.error("Randevular alınamadı.");
-    }
-  };
+export default function AppointmentsPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { appointments, loading } = useSelector((state: RootState) => state.appointments);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(fetchAppointments());
+  }, [dispatch]);
 
-  const handleStatus = async (id: string, status: string) => {
-    const token = localStorage.getItem("token");
-    try {
-      await axios.put(
-        `/appointments/${id}/status`,
-        { status },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      toast.success(`Randevu ${status === "confirmed" ? "onaylandı" : "iptal edildi"}`);
-      fetchData();
-    } catch (err) {
-      toast.error("Durum güncellenemedi");
-    }
+  const handleStatusChange = (id: string, currentStatus: string) => {
+    const nextStatus =
+      currentStatus === "pending"
+        ? "confirmed"
+        : currentStatus === "confirmed"
+        ? "cancelled"
+        : "pending";
+
+    dispatch(updateAppointmentStatus({ id, status: nextStatus }))
+      .unwrap()
+      .then(() => toast.success("Randevu durumu güncellendi"))
+      .catch(() => toast.error("Durum güncelleme hatası"));
   };
 
-  const handleDelete = async (id: string) => {
-    const token = localStorage.getItem("token");
-    try {
-      await axios.delete(`/appointments/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      toast.success("Randevu silindi");
-      fetchData();
-    } catch (err) {
-      toast.error("Silme başarısız");
+  const handleDelete = (id: string) => {
+    if (confirm("Bu randevuyu silmek istediğinize emin misiniz?")) {
+      dispatch(deleteAppointment(id))
+        .unwrap()
+        .then(() => toast.success("Randevu silindi"))
+        .catch(() => toast.error("Silme işlemi başarısız"));
     }
   };
 
   return (
-    <Wrapper>
-      <Title>📅 Randevular</Title>
-      <Table>
-        <thead>
-          <tr>
-            <Th>Ad</Th>
-            <Th>Email</Th>
-            <Th>Telefon</Th>
-            <Th>Masaj</Th>
-            <Th>Tarih</Th>
-            <Th>Not</Th>
-            <Th>Durum</Th>
-            <Th>İşlem</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((a) => (
-            <tr key={a._id}>
-              <Td>{a.name}</Td>
-              <Td>{a.email}</Td>
-              <Td>{a.phone}</Td>
-              <Td>{a.serviceType}</Td>
-              <Td>{a.date} – {a.time}</Td>
-              <Td>{a.note || "-"}</Td>
-              <Td>{a.status}</Td>
-              <Td>
-                <Button color="#2ecc71" onClick={() => handleStatus(a._id, "confirmed")}>
-                  Onayla
-                </Button>
-                <Button color="#e67e22" onClick={() => handleStatus(a._id, "cancelled")}>
-                  İptal
-                </Button>
-                <Button color="#e74c3c" onClick={() => handleDelete(a._id)}>
-                  Sil
-                </Button>
-              </Td>
+    <Container>
+      <Title>📅 Randevu Yönetimi</Title>
+      {loading ? (
+        <div>Yükleniyor...</div>
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <Th>Ad</Th>
+              <Th>Email</Th>
+              <Th>Hizmet</Th>
+              <Th>Tarih</Th>
+              <Th>Saat</Th>
+              <Th>Durum</Th>
+              <Th>İşlem</Th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Wrapper>
+          </thead>
+          <tbody>
+            {appointments.map((appt) => (
+              <tr key={appt._id}>
+                <Td>{appt.name}</Td>
+                <Td>{appt.email}</Td>
+                <Td>{appt.service?.title || appt.serviceType}</Td>
+                <Td>{appt.date}</Td>
+                <Td>{appt.time}</Td>
+                <Td>{appt.status}</Td>
+                <Td>
+                  <Button
+                    onClick={() => handleStatusChange(appt._id, appt.status || "pending")}
+                    color="#f39c12"
+                  >
+                    Durum Değiştir
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(appt._id)}
+                    color="#e74c3c"
+                  >
+                    Sil
+                  </Button>
+                </Td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+    </Container>
   );
 }

@@ -1,0 +1,2452 @@
+{
+  "info": {
+    "_postman_id": "52049cb5-8cb0-4ab9-86a6-5a34b605b153",
+    "name": "Anastasia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20528167",
+    "_collection_link": "https://www.postman.com/red-eclipse-24199/workspace/orhan/collection/20528167-52049cb5-8cb0-4ab9-86a6-5a34b605b153?action=share&source=collection_link&creator=20528167"
+  },
+  "item": [
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "auth",
+          "item": [
+            {
+              "name": "Register User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\",\n  \"role\": \"user\"\n}"
+                },
+                "url": {
+                  "raw": "{{url-anastasia}}users/register",
+                  "host": ["{{url-anastasia}}"],
+                  "path": ["users", "register"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login User",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"123456\"\n}"
+                },
+                "url": {
+                  "raw": "{{url-anastasia}}users/login",
+                  "host": ["{{url-anastasia}}"],
+                  "path": ["users", "login"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}users/profile",
+              "host": ["{{url-anastasia}}users"],
+              "path": ["profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updateduser@example.com\",\n  \"phone\": \"+905555555555\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}users/profile",
+              "host": ["{{url-anastasia}}"],
+              "path": ["users", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}users",
+              "host": ["{{url-anastasia}}"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "change password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"currentPassword\": \"123456\",\n    \"newPassword\": \"654321\"\n  }\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url-anastasia}}users/change-password",
+              "host": ["{{url-anastasia}}"],
+              "path": ["users", "change-password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "product",
+      "item": [
+        {
+          "name": "📦 Get All Products",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}products",
+              "host": ["{{url-anastasia}}"],
+              "path": ["products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📦 Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}products/67f02ea6feb2056a7836d119",
+              "host": ["{{url-anastasia}}"],
+              "path": ["products", "67f02ea6feb2056a7836d119"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "➕ Create Product (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Lavanta Yağı",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Rahatlatıcı etkili doğal yağ",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "129.99",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "50",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "yağ",
+                  "type": "text"
+                },
+                {
+                  "key": "tags",
+                  "value": "lavanta,rahatlatıcı",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/path/to/image.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}products",
+              "host": ["{{url-anastasia}}"],
+              "path": ["products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✏️ Update Product (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Lavendelöl",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "149.90",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/home/orhan/Desktop/web-Logo.png"
+                },
+                {
+                  "key": "description",
+                  "value": "Natürliches ätherisches Öl",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Körperpflege",
+                  "type": "text"
+                },
+                {
+                  "key": "tags",
+                  "value": "beruhigend, bio, vegan",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}products/67f02ea6feb2056a7836d119",
+              "host": ["{{url-anastasia}}"],
+              "path": ["products", "67f02ea6feb2056a7836d119"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Product (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}products/67f02fbafeb2056a7836d123",
+              "host": ["{{url-anastasia}}"],
+              "path": ["products", "67f02fbafeb2056a7836d123"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "🛍️ Get User Cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}cart",
+              "host": ["{{url-anastasia}}cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "➕ Add To Cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"67f090c62cebb3485b728f9d\",\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}cart/add",
+              "host": ["{{url-anastasia}}"],
+              "path": ["cart", "add"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔼 Increase Quantity",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}cart/increase/{{productId}}",
+              "host": ["{{url-anastasia}}"],
+              "path": ["cart", "increase", "{{productId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔽 Decrease Quantity",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}cart/decrease/{{productId}}",
+              "host": ["{{url-anastasia}}"],
+              "path": ["cart", "decrease", "{{productId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "❌ Remove Product from Cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}cart/remove/67f02ea6feb2056a7836d119",
+              "host": ["{{url-anastasia}}"],
+              "path": ["cart", "remove", "67f02ea6feb2056a7836d119"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🧹 Clear Cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}cart/clear",
+              "host": ["{{url-anastasia}}"],
+              "path": ["cart", "clear"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"product\": \"67f02ea6feb2056a7836d119\",\n      \"quantity\": 1\n    }\n  ],\n  \"shippingAddress\": {\n    \"name\": \"Jane Doe\",\n    \"phone\": \"1234567890\",\n    \"street\": \"Musterstra\\u00dfe 1\",\n    \"city\": \"Berlin\",\n    \"postalCode\": \"10115\",\n    \"country\": \"Germany\"\n  },\n  \"totalPrice\": 299.98\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}orders",
+              "host": ["{{url-anastasia}}orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}orders",
+              "host": ["{{url-anastasia}}orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Order as Delivered",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}orders/67f087eb8e5a416f931dff7b/deliver",
+              "host": ["{{url-anastasia}}orders"],
+              "path": ["67f087eb8e5a416f931dff7b", "deliver"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isDelivered\": true\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}orders/67f087eb8e5a416f931dff7b/status",
+              "host": ["{{url-anastasia}}orders"],
+              "path": ["67f087eb8e5a416f931dff7b", "status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "appointment",
+      "item": [
+        {
+          "name": "📆 Create Appointment (Public)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"orhanguzell@gmail.com\",\n  \"phone\": \"+49123456789\",\n  \"serviceType\": \"Aromatherapy\",\n  \"note\": \"Please use lavender oil.\",\n  \"date\": \"2025-04-10\",\n  \"time\": \"14:00\",\n  \"service\": \"67f11f942036d133774bb801\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}appointments",
+              "host": ["{{url-anastasia}}"],
+              "path": ["appointments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📋 Get All Appointments (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}appointments",
+              "host": ["{{url-anastasia}}"],
+              "path": ["appointments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔍 Get Appointment by ID (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}appointments/67f11fc71c458d19966c4c4d",
+              "host": ["{{url-anastasia}}"],
+              "path": ["appointments", "67f11fc71c458d19966c4c4d"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Update Appointment Status (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}appointments/67f11fc71c458d19966c4c4d/status",
+              "host": ["{{url-anastasia}}"],
+              "path": ["appointments", "67f11fc71c458d19966c4c4d", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Appointment (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}appointments/67f11fc71c458d19966c4c4d",
+              "host": ["{{url-anastasia}}"],
+              "path": ["appointments", "67f11fc71c458d19966c4c4d"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "blog",
+      "item": [
+        {
+          "name": "🌐 Get All Blogs",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}blogs",
+              "host": ["{{url-anastasia}}"],
+              "path": ["blogs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔍 Get Blog by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}blogs/new-blog-title",
+              "host": ["{{url-anastasia}}"],
+              "path": ["blogs", "new-blog-title"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "➕ Create Blog",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "New Blog Title",
+                  "type": "text"
+                },
+                {
+                  "key": "content",
+                  "value": "Blog content goes here...",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "beslenme",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "Admin",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}blogs",
+              "host": ["{{url-anastasia}}"],
+              "path": ["blogs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📝 Update Blog",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Updated Title",
+                  "type": "text"
+                },
+                {
+                  "key": "content",
+                  "value": "Updated content...",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "vegan",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "Editor",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}blogs/67f05fc119526d9386b9c9ef",
+              "host": ["{{url-anastasia}}"],
+              "path": ["blogs", "67f05fc119526d9386b9c9ef"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "❌ Delete Blog",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}blogs/67f0603c19526d9386b9c9f9",
+              "host": ["{{url-anastasia}}"],
+              "path": ["blogs", "67f0603c19526d9386b9c9f9"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "notification",
+      "item": [
+        {
+          "name": "📥 Create Notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Yeni Randevu Talebi\",\n  \"message\": \"Yeni bir randevu talebi al\\u0131nd\\u0131.\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}notifications",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📬 Get My Notifications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}notifications",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Mark Notification As Read",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}notifications/67f064930aeb941c62b4a11b/read",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications", "67f064930aeb941c62b4a11b", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}notifications/67f064e00aeb941c62b4a126",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications", "67f064e00aeb941c62b4a126"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "feedback",
+      "item": [
+        {
+          "name": "✍️ Create Feedback (Public)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Elena\",\n  \"email\": \"elena@example.com\",\n  \"message\": \"Çok memnun kaldım, teşekkür ederim!\",\n  \"rating\": 5\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}feedbacks",
+              "host": ["{{url-anastasia}}"],
+              "path": ["feedbacks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📋 Get All Feedbacks (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}feedbacks",
+              "host": ["{{url-anastasia}}"],
+              "path": ["feedbacks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔄 Toggle Feedback Publish",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}feedbacks/67f0668b493f79d31cddb155/toggle",
+              "host": ["{{url-anastasia}}"],
+              "path": ["feedbacks", "67f0668b493f79d31cddb155", "toggle"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Feedback",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}feedbacks/67f066da493f79d31cddb15e",
+              "host": ["{{url-anastasia}}"],
+              "path": ["feedbacks", "67f066da493f79d31cddb15e"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "contact",
+      "item": [
+        {
+          "name": "📨 Send Contact Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doedddddd\",\n  \"email\": \"jane@example.com\",\n  \"subject\": \"Soru\",\n  \"message\": \"Randevu saatleri hakk\\u0131nda bilgi almak istiyorum.\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}contacts",
+              "host": ["{{url-anastasia}}"],
+              "path": ["contacts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔐 Get All Contact Messages (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}contacts",
+              "host": ["{{url-anastasia}}"],
+              "path": ["contacts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "❌ Delete Contact Message (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}contact/{{messageId}}",
+              "host": ["{{url-anastasia}}"],
+              "path": ["contact", "{{messageId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "item": [
+        {
+          "name": "📄 Get All Settings",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}settings",
+              "host": ["{{url-anastasia}}"],
+              "path": ["settings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "➕ Upsert Setting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"salon_email\",\n  \"value\": \"info@anastasia.com\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}settings",
+              "host": ["{{url-anastasia}}"],
+              "path": ["settings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "❌ Delete Setting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}settings/salon_email",
+              "host": ["{{url-anastasia}}"],
+              "path": ["settings", "salon_email"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "coupon",
+      "item": [
+        {
+          "name": "✅ Create Coupon (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ANASTASIA11\",\n  \"discount\": 10,\n  \"expiresAt\": \"2025-05-04T23:39:41.372704\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}coupons",
+              "host": ["{{url-anastasia}}"],
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📋 Get All Coupons (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}coupons",
+              "host": ["{{url-anastasia}}"],
+              "path": ["coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔍 Check Coupon By Code (Public)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}coupons/check/ANASTASIA10",
+              "host": ["{{url-anastasia}}"],
+              "path": ["coupons", "check", "ANASTASIA10"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✏️ Update Coupon (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"discount\": 15,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}coupons/67f06ebed5772b5a0a61c2c4",
+              "host": ["{{url-anastasia}}"],
+              "path": ["coupons", "67f06ebed5772b5a0a61c2c4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Coupon (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}coupons/67f06f05d5772b5a0a61c2d3",
+              "host": ["{{url-anastasia}}"],
+              "path": ["coupons", "67f06f05d5772b5a0a61c2d3"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "gallery",
+      "item": [
+        {
+          "name": "🖼️ Upload Image (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [
+                    "",
+                    "/home/orhan/Dokumente/anastasiaMassage/anastasia-frontend/public/logo-dark.png"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}gallery/upload",
+              "host": ["{{url-anastasia}}"],
+              "path": ["gallery", "upload"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📂 Get All Gallery Items (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}gallery",
+              "host": ["{{url-anastasia}}"],
+              "path": ["gallery"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Gallery Item (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}gallery/67f071164655fb348727b089",
+              "host": ["{{url-anastasia}}"],
+              "path": ["gallery", "67f071164655fb348727b089"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "item": [
+        {
+          "name": "📄 Get All FAQs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}faqs",
+              "host": ["{{url-anastasia}}"],
+              "path": ["faqs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "➕ Create FAQ",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Masajdan \\u00f6nce yemek yemeli miyim?\",\n  \"answer\": \"Masajdan en az 1 saat \\u00f6nce yemek yememeniz \\u00f6nerilir.\",\n  \"category\": \"Genel\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}faqs",
+              "host": ["{{url-anastasia}}"],
+              "path": ["faqs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete FAQ",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}faqs/67f0781f796b5aea2318051a",
+              "host": ["{{url-anastasia}}"],
+              "path": ["faqs", "67f0781f796b5aea2318051a"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "item": [
+        {
+          "name": "➕ Create Stock",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product\": \"67f02ea6feb2056a7836d119\",\n  \"quantity\": 200,\n  \"type\": \"in\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}stocks",
+              "host": ["{{url-anastasia}}"],
+              "path": ["stocks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📋 Get All Stocks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}stocks",
+              "host": ["{{url-anastasia}}"],
+              "path": ["stocks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "❌ Delete Stock",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}stocks/67f0859ed32e3a565abec5d5",
+              "host": ["{{url-anastasia}}"],
+              "path": ["stocks", "67f0859ed32e3a565abec5d5"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "payment",
+      "item": [
+        {
+          "name": "🧾 Create Payment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": \"67f095d0ef9f7cf62289e4d1\",\n  \"amount\": 249.9,\n  \"method\": \"credit_card\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}payments",
+              "host": ["{{url-anastasia}}"],
+              "path": ["payments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📄 Get All Payments (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}payments",
+              "host": ["{{url-anastasia}}"],
+              "path": ["payments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔍 Get Payment by Order ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}payments/order/67f095d0ef9f7cf62289e4d1",
+              "host": ["{{url-anastasia}}"],
+              "path": ["payments", "order", "67f095d0ef9f7cf62289e4d1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Mark Payment as Paid",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}payments/{{paymentId}}/mark-paid",
+              "host": ["{{url-anastasia}}"],
+              "path": ["payments", "{{paymentId}}", "mark-paid"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dashboard-admin",
+      "item": [
+        {
+          "name": "📈 Get Admin Dashboard Stats",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}dashboard",
+              "host": ["{{url-anastasia}}"],
+              "path": ["dashboard"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "notification",
+      "item": [
+        {
+          "name": "📬 Create Notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Yeni Randevu Bildirimi\",\n  \"message\": \"Yeni bir randevu talebi alındı.\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}notifications",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📋 Get All Notifications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}notifications",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "❌ Delete Notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}notifications/67f09b300f90ec55b0236fa0",
+              "host": ["{{url-anastasia}}"],
+              "path": ["notifications", "67f09b300f90ec55b0236fa0"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "account",
+      "item": [
+        {
+          "name": "📬 Update Notification Preferences",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailNotifications\": true,\n  \"smsNotifications\": false\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}account/me/notifications",
+              "host": ["{{url-anastasia}}"],
+              "path": ["account", "me", "notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🌐 Update Social Media Links",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"facebook\": \"https://facebook.com/orhan\",\n  \"instagram\": \"https://instagram.com/orhan\",\n  \"twitter\": \"https://twitter.com/orhan\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}account/me/social",
+              "host": ["{{url-anastasia}}"],
+              "path": ["account", "me", "social"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📄 Get My Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}account/me",
+              "host": ["{{url-anastasia}}"],
+              "path": ["account", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✏️ Update My Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Orhan König\",\n  \"email\": \"orhan@example.com\",\n  \"phone\": \"+491234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}account/me/update",
+              "host": ["{{url-anastasia}}"],
+              "path": ["account", "me", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔒 Update My Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"newpassword123\",\n  \"newPassword\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}account/me/password",
+              "host": ["{{url-anastasia}}"],
+              "path": ["account", "me", "password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "item": [
+        {
+          "name": "➕ Create New Service",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Reflexzonenmassage",
+                  "type": "text"
+                },
+                {
+                  "key": "shortDescription",
+                  "value": "Gezielte Druckmassage für innere Organe",
+                  "type": "text"
+                },
+                {
+                  "key": "detailedDescription",
+                  "value": "Reflexzonenmassage aktiviert körpereigene Heilkräfte durch gezielten Druck auf Fußreflexzonen.",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "149.90",
+                  "type": "text"
+                },
+                {
+                  "key": "durationMinutes",
+                  "value": "50",
+                  "type": "text"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": "/path/to/image1.jpg"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": "/path/to/image2.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}services",
+              "host": ["{{url-anastasia}}"],
+              "path": ["services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📋 Get All Services (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}services",
+              "host": ["{{url-anastasia}}"],
+              "path": ["services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔍 Get Service by ID (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url-anastasia}}services/67f127931c458d19966c4c64",
+              "host": ["{{url-anastasia}}"],
+              "path": ["services", "67f127931c458d19966c4c64"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✏️ Update Service",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Aromatherapie Massage",
+                  "type": "text"
+                },
+                {
+                  "key": "shortDescription",
+                  "value": "Entspannende Aromatherapie mit ätherischen Ölen",
+                  "type": "text"
+                },
+                {
+                  "key": "detailedDescription",
+                  "value": "Diese Massage nutzt natürliche ätherische Öle zur Beruhigung und Regeneration von Körper und Geist.",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "199.90",
+                  "type": "text"
+                },
+                {
+                  "key": "durationMinutes",
+                  "value": "60",
+                  "type": "text"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": "/path/to/image3.jpg"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": "/path/to/image4.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url-anastasia}}services/67f127931c458d19966c4c64",
+              "host": ["{{url-anastasia}}"],
+              "path": ["services", "67f127931c458d19966c4c64"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Service",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}services/67f127931c458d19966c4c64",
+              "host": ["{{url-anastasia}}"],
+              "path": ["services", "67f127931c458d19966c4c64"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "email",
+      "item": [
+        {
+          "name": "📥 Get All Emails (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}emails",
+              "host": ["{{url-anastasia}}"],
+              "path": ["emails"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🔍 Get Email by ID (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}emails/660e8fa71234567890abcdef",
+              "host": ["{{url-anastasia}}"],
+              "path": ["emails", "660e8fa71234567890abcdef"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "🗑️ Delete Email (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}emails/67f14e8bc6e327e48321ca5b",
+              "host": ["{{url-anastasia}}"],
+              "path": ["emails", "67f14e8bc6e327e48321ca5b"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📤 Send Email (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"orhanguzell@gmail.com\",\n  \"subject\": \"Terminbestätigung\",\n  \"message\": \"<h2>Ihr Termin ist bestätigt ✅</h2><p>Vielen Dank für Ihre Buchung bei <strong>Anastasia Massage</strong>.</p><p>Wir freuen uns auf Ihren Besuch!</p><p>🕓 Terminzeit: 10. April 2025 - 14:00 Uhr</p><br><p>Mit freundlichen Grüßen,<br>Ihr Anastasia Team</p>\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url-anastasia}}emails/send",
+              "host": ["{{url-anastasia}}emails"],
+              "path": ["send"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📥 Fetch Incoming Emails (Manual)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url-anastasia}}emails/fetch",
+              "host": ["{{url-anastasia}}"],
+              "path": ["emails", "fetch"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📌 Mark Email as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isRead\": true\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}emails/{{emailId}}/read",
+              "host": ["{{url-anastasia}}"],
+              "path": ["emails", "{{emailId}}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "📌 Mark Email as Unread",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isRead\": false\n}"
+            },
+            "url": {
+              "raw": "{{url-anastasia}}emails/{{emailId}}/read",
+              "host": ["{{url-anastasia}}"],
+              "path": ["emails", "{{emailId}}", "read"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

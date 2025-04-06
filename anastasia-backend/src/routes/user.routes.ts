@@ -3,6 +3,7 @@ import {
   registerUser,
   loginUser,
   changePassword,
+  logoutUser,
 } from "../controllers/user/auth.controller";
 
 import {
@@ -82,5 +83,7 @@ router.put(
   authorizeRoles("admin"),
   toggleUserStatus
 );
+
+router.post("/logout", logoutUser);
 
 export default router;

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
@@ -75,7 +75,11 @@ interface Props {
   onClose: () => void;
 }
 
-export default function ProductFormModal({ product, onSuccess, onClose }: Props) {
+export default function ProductFormModal({
+  product,
+  onSuccess,
+  onClose,
+}: Props) {
   const { t } = useTranslation();
   const [image, setImage] = useState<File | null>(null);
 
@@ -87,9 +91,12 @@ export default function ProductFormModal({ product, onSuccess, onClose }: Props)
     category: product?.category || "",
   });
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -127,7 +134,9 @@ export default function ProductFormModal({ product, onSuccess, onClose }: Props)
   return (
     <Overlay>
       <Modal>
-        <Title>{product ? t("product.updateTitle") : t("product.addTitle")}</Title>
+        <Title>
+          {product ? t("product.updateTitle") : t("product.addTitle")}
+        </Title>
         <form onSubmit={handleSubmit}>
           <Input
             type="text"
@@ -177,7 +186,9 @@ export default function ProductFormModal({ product, onSuccess, onClose }: Props)
           />
 
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button type="submit">{product ? t("product.update") : t("product.add")}</Button>
+            <Button type="submit">
+              {product ? t("product.update") : t("product.add")}
+            </Button>
             <Button type="button" danger onClick={onClose}>
               {t("common.cancel")}
             </Button>

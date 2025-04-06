@@ -1,11 +1,12 @@
 // src/models/product.models.ts
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import { IStock } from "./stock.models"; // Import the IStock interface
 
 export interface IProduct extends Document {
   name: string;
   description?: string;
   price: number;
-  stockRef?: Types.ObjectId; 
+  stockRef?: IStock | Types.ObjectId; 
   category: string;
   image: string;
   tags?: string[];

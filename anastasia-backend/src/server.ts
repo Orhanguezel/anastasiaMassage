@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/connect";
 import routes from "./routes";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -10,8 +11,15 @@ const app: Express = express();
 
 connectDB();
 
-app.use(express.json());
-app.use(cors());
+app.use(express.json({ strict: false }));
+app.use(cors({
+  origin: "http://localhost:3000", // frontend URL
+  credentials: true,
+}));
+
+app.use("/uploads", express.static("uploads"));
+
+app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
 

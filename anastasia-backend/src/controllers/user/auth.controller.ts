@@ -1,5 +1,3 @@
-// src/controllers/user/auth.controller.ts
-
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import User from "../../models/user.models";
@@ -8,7 +6,17 @@ import { hashPassword, comparePasswords } from "../../utils/authUtils";
 
 const BASE_URL = process.env.BASE_URL;
 
-// Register User
+// Utility: Set Token as Cookie
+const setTokenCookie = (res: Response, token: string) => {
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 gün
+  });
+};
+
+// ✅ Register User
 export const registerUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const {
@@ -47,7 +55,7 @@ export const registerUser = asyncHandler(
       return;
     }
 
-    let profileImage = req.file
+    const profileImage = req.file
       ? `${BASE_URL}/uploads/profile-images/${req.file.filename}`
       : "https://via.placeholder.com/150";
 
@@ -67,6 +75,9 @@ export const registerUser = asyncHandler(
       notifications: parsedNotifications,
     });
 
+    const token = generateToken({ id: String(user._id), role: user.role });
+    setTokenCookie(res, token); // 🍪
+
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -76,13 +87,12 @@ export const registerUser = asyncHandler(
         email: user.email,
         role: user.role,
         profileImage: user.profileImage,
-        token: generateToken({ id: String(user._id), role: user.role }),
       },
     });
   }
 );
 
-// Login User
+// ✅ Login User
 export const loginUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body;
@@ -99,6 +109,9 @@ export const loginUser = asyncHandler(
       return;
     }
 
+    const token = generateToken({ id: String(user._id), role: user.role });
+    setTokenCookie(res, token); // 🍪
+
     res.status(200).json({
       success: true,
       message: "Login successful",
@@ -107,18 +120,18 @@ export const loginUser = asyncHandler(
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken({ id: String(user._id), role: user.role }),
+        profileImage: user.profileImage,
       },
     });
   }
 );
 
-// Change Password
+// ✅ Change Password
 export const changePassword = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user!.id).select("-password");
+    const user = await User.findById(req.user!.id).select("+password");
     if (!user || !(await comparePasswords(currentPassword, user.password))) {
       res.status(401).json({ message: "Invalid current password" });
       return;
@@ -132,3 +145,20 @@ export const changePassword = asyncHandler(
       .json({ success: true, message: "Password updated successfully" });
   }
 );
+// ✅ Logout User
+export const logoutUser = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logout successful",
+    });
+  }
+);
+
+

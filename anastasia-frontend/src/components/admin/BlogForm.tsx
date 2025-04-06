@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import styled from "styled-components";
 
 const Form = styled.form`
@@ -79,11 +79,35 @@ export default function BlogForm({ blog, onSuccess }: Props) {
   return (
     <Form onSubmit={handleSubmit}>
       <h3>{blog ? "📝 Yazıyı Güncelle" : "➕ Yeni Blog Yazısı"}</h3>
-      <Input name="title" placeholder="Başlık" value={form.title} onChange={handleChange} />
-      <TextArea name="content" rows={5} placeholder="İçerik" value={form.content} onChange={handleChange} />
-      <Input name="category" placeholder="Kategori (vegan, beslenme...)" value={form.category} onChange={handleChange} />
-      <Input name="author" placeholder="Yazar" value={form.author} onChange={handleChange} />
-      <Input type="file" onChange={(e) => setImage(e.target.files?.[0] || null)} />
+      <Input
+        name="title"
+        placeholder="Başlık"
+        value={form.title}
+        onChange={handleChange}
+      />
+      <TextArea
+        name="content"
+        rows={5}
+        placeholder="İçerik"
+        value={form.content}
+        onChange={handleChange}
+      />
+      <Input
+        name="category"
+        placeholder="Kategori (vegan, beslenme...)"
+        value={form.category}
+        onChange={handleChange}
+      />
+      <Input
+        name="author"
+        placeholder="Yazar"
+        value={form.author}
+        onChange={handleChange}
+      />
+      <Input
+        type="file"
+        onChange={(e) => setImage(e.target.files?.[0] || null)}
+      />
       <Button type="submit">{blog ? "Güncelle" : "Ekle"}</Button>
     </Form>
   );

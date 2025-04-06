@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 import styled from "styled-components";
-import { FaHome, FaUsers, FaCalendarAlt, FaBoxOpen, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaUsers,
+  FaCalendarAlt,
+  FaBoxOpen,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { logout } from "@/store/authSlice";
+import { logoutUser } from "@/store/user/authSlice"; // ✅ doğru thunk
 import { useRouter } from "next/navigation";
+import { AppDispatch } from "@/store"; // typing
 
 const SidebarWrapper = styled.aside`
   width: 240px;
@@ -51,12 +58,15 @@ const LogoutButton = styled.button`
 `;
 
 export default function Sidebar() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/login");
+  const handleLogout = async () => {
+    const result = await dispatch(logoutUser());
+
+    if (logoutUser.fulfilled.match(result)) {
+      router.push("/login");
+    }
   };
 
   return (

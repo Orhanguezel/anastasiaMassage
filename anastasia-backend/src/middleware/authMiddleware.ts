@@ -11,10 +11,17 @@ declare namespace Express {
   }
 }
 
+// authMiddleware.ts (güncel)
 export const authenticate = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const token = req.headers.authorization?.split(" ")[1];
+      // Önce Authorization header'dan al
+      let token = req.headers.authorization?.split(" ")[1];
+
+      // Eğer yoksa Cookie'den al
+      if (!token && req.cookies?.token) {
+        token = req.cookies.token;
+      }
 
       if (!token) {
         res.status(401).json({ success: false, message: "Authorization token missing" });
@@ -39,7 +46,7 @@ export const authenticate = asyncHandler(
         return;
       }
 
-      req.user = user; 
+      req.user = user;
       next();
     } catch (error: any) {
       if (error.name === "TokenExpiredError") {
@@ -51,6 +58,7 @@ export const authenticate = asyncHandler(
     }
   }
 );
+
 
 export const authorizeRoles = (...roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {

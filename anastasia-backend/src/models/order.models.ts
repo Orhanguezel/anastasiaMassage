@@ -22,6 +22,7 @@ export interface IOrder extends Document {
   shippingAddress: IShippingAddress;
   totalPrice: number;
   paymentMethod: "cash_on_delivery";
+  status?: "pending" | "preparing" | "shipped" | "completed" | "cancelled"; 
   isDelivered: boolean;
   deliveredAt?: Date;
   createdAt: Date;
@@ -52,10 +53,16 @@ const orderSchema = new Schema<IOrder>(
       enum: ["cash_on_delivery"],
       default: "cash_on_delivery",
     },
+    status: {
+      type: String,
+      enum: ["pending", "preparing", "shipped", "completed", "cancelled"],
+      default: "pending",
+    },
     isDelivered: { type: Boolean, default: false },
     deliveredAt: { type: Date },
   },
   { timestamps: true }
 );
+
 
 export default model<IOrder>("Order", orderSchema);

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { loginUser } from "@/store/authSlice";
+import { loginUser } from "@/store/user/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { RootState } from "@/store";
@@ -59,7 +59,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const { loading, token } = useSelector((state: RootState) => state.auth); // token direkt alındı
+  const { loading, user } = useSelector((state: RootState) => state.auth); // ✅ user objesi kullanılmalı
 
   const [form, setForm] = useState({ email: "", password: "" });
 
@@ -79,10 +79,11 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (token) {
+    // ✅ cookie varsa user gelir → kontrol buna göre
+    if (user?._id || user?.email) {
       router.push("/admin");
     }
-  }, [token, router]);
+  }, [user, router]);
 
   return (
     <Wrapper>

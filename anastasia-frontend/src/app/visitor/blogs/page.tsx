@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import styled from "styled-components";
 
 const Container = styled.div`

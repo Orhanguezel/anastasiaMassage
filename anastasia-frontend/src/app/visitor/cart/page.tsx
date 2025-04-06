@@ -1,10 +1,15 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { removeFromCart, updateQuantity, clearCart } from "@/store/cartSlice";
+import { AppDispatch, RootState } from "@/store";
+import {
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+  clearCart,
+} from "@/store/cartSlice";
 import { useState } from "react";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -15,6 +20,17 @@ const Container = styled.div`
 const Table = styled.table`
   width: 100%;
   margin-bottom: 2rem;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  input {
+    width: 60px;
+    padding: 4px;
+  }
 `;
 
 const Input = styled.input`
@@ -31,11 +47,23 @@ const Button = styled.button`
   color: white;
   border: none;
   border-radius: 6px;
+  cursor: pointer;
+`;
+
+const QtyButton = styled.button`
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
 `;
 
 export default function CartPage() {
-  const { items } = useSelector((state: RootState) => state.cart);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>(); // Tip düzeltildi
+  const { cart } = useSelector((state: RootState) => state.cart);
+  const items = cart?.items || [];
 
   const [form, setForm] = useState({
     name: "",
@@ -47,7 +75,7 @@ export default function CartPage() {
   });
 
   const total = items.reduce(
-    (acc, i) => acc + i.price * (i.quantity || 1),
+    (acc, i) => acc + i.priceAtAddition * (i.quantity || 1),
     0
   );
 
@@ -56,14 +84,14 @@ export default function CartPage() {
     try {
       await axios.post("/orders", {
         items: items.map((i) => ({
-          product: i._id,
+          product: i.product._id,
           quantity: i.quantity || 1,
         })),
         shippingAddress: form,
         totalPrice: total,
       });
       alert("✅ Sipariş başarıyla oluşturuldu!");
-      dispatch(clearCart());
+      await dispatch(clearCart()); // await ile çağırmak gerekebilir
     } catch (err) {
       alert("❌ Sipariş gönderilemedi.");
     }
@@ -72,7 +100,9 @@ export default function CartPage() {
   return (
     <Container>
       <h1>🛒 Sepetiniz</h1>
-      {items.length === 0 ? <p>Sepet boş.</p> : (
+      {items.length === 0 ? (
+        <p>Sepet boş.</p>
+      ) : (
         <>
           <Table>
             <thead>
@@ -84,21 +114,19 @@ export default function CartPage() {
               </tr>
             </thead>
             <tbody>
-              {items.map(i => (
-                <tr key={i._id}>
-                  <td>{i.name}</td>
+              {items.map((i) => (
+                <tr key={i.product._id}>
+                  <td>{i.product.name}</td>
                   <td>
-                    <input
-                      type="number"
-                      value={i.quantity}
-                      min={1}
-                      onChange={(e) => dispatch(updateQuantity({ id: i._id, qty: +e.target.value }))}
-                      style={{ width: "60px" }}
-                    />
+                    <QtyButton onClick={() => dispatch(decreaseQuantity(i.product._id))}>-</QtyButton>
+                    {i.quantity}
+                    <QtyButton onClick={() => dispatch(increaseQuantity(i.product._id))}>+</QtyButton>
                   </td>
-                  <td>{(i.price * (i.quantity || 1)).toFixed(2)} €</td>
+                  <td>{(i.priceAtAddition * (i.quantity || 1)).toFixed(2)} €</td>
                   <td>
-                    <button onClick={() => dispatch(removeFromCart(i._id))}>❌</button>
+                    <button onClick={() => dispatch(removeFromCart(i.product._id))}>
+                      ❌
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -108,12 +136,18 @@ export default function CartPage() {
           <h3>Toplam: {total.toFixed(2)} €</h3>
 
           <form onSubmit={handleSubmit}>
-            <Input name="name" placeholder="Ad Soyad" required onChange={(e) => setForm({ ...form, name: e.target.value })} />
-            <Input name="phone" placeholder="Telefon" required onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-            <Input name="street" placeholder="Adres" required onChange={(e) => setForm({ ...form, street: e.target.value })} />
-            <Input name="city" placeholder="Şehir" required onChange={(e) => setForm({ ...form, city: e.target.value })} />
-            <Input name="postalCode" placeholder="Posta Kodu" required onChange={(e) => setForm({ ...form, postalCode: e.target.value })} />
-            <Input name="country" placeholder="Ülke" required onChange={(e) => setForm({ ...form, country: e.target.value })} />
+            {Object.entries(form).map(([key, value]) => (
+              <Input
+                key={key}
+                name={key}
+                placeholder={key}
+                required
+                value={value}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, [key]: e.target.value }))
+                }
+              />
+            ))}
             <Button type="submit">🚚 Siparişi Gönder (Kapıda Ödeme)</Button>
           </form>
         </>

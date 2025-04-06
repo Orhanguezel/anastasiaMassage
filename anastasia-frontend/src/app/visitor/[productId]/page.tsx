@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useTranslation } from "../../../../node_modules/react-i18next";
+import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
 const Wrapper = styled(motion.section)`
@@ -79,7 +79,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.primaryDark || "#219150"};
+    background: ${({ theme }) => theme.primaryHover || "#219150"};
   }
 `;
 
@@ -103,7 +103,9 @@ export default function ProductListPage() {
       <Heading>🛍️ {t("products.all", "Tüm Ürünler")}</Heading>
       <Grid>
         {products.map((p: any, i) => (
-          <CardLink href={`/visitor/products/${p._id}`} key={p._id}>
+          <CardLink href={`/visitor/products/${p._id.toString()}`} key={p._id}>
+
+
             <Card
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}

@@ -1,6 +1,7 @@
 import { type Request, type Response } from "express";
 import Cart from "../models/cart.models";
 import Product from "../models/product.models";
+import Stock, { type IStock } from "../models/stock.models";
 import type { IProduct } from "../models/product.models";
 import { Types } from "mongoose";
 
@@ -35,11 +36,12 @@ export const addToCart = async (req: Request, res: Response): Promise<void> => {
       return void res.status(400).json({ message: "User ID, Product ID and valid quantity required" });
     }
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate("stockRef");
     if (!product) return void res.status(404).json({ message: "Product not found" });
 
-    if (product.stock < quantity) {
-      return void res.status(400).json({ message: `Only ${product.stock} available in stock` });
+    const availableStock = (product.stockRef as IStock)?.quantity ?? 0;
+    if (availableStock < quantity) {
+      return void res.status(400).json({ message: `Only ${availableStock} items available in stock` });
     }
 
     let cart = await Cart.findOne({ user: userId });
@@ -83,12 +85,13 @@ export const increaseQuantity = async (req: Request, res: Response): Promise<voi
     if (itemIndex === -1)
       return void res.status(404).json({ message: "Item not found in cart" });
 
-    const product = cart.items[itemIndex].product as IProduct;
-    if (cart.items[itemIndex].quantity >= product.stock)
+    const product = await Product.findById(productId).populate("stockRef");
+    const stock = (product?.stockRef as IStock)?.quantity ?? 0;
+    if (cart.items[itemIndex].quantity >= stock)
       return void res.status(400).json({ message: "Cannot exceed available stock" });
 
     cart.items[itemIndex].quantity += 1;
-    cart.items[itemIndex].priceAtAddition = product.price;
+    cart.items[itemIndex].priceAtAddition = product?.price ?? cart.items[itemIndex].priceAtAddition;
 
     cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.priceAtAddition, 0);
     await cart.save();

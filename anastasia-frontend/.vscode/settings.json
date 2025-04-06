@@ -1,0 +1,16 @@
+{
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "typescript.tsserver.maxTsServerMemory": 1024,
+  "editor.minimap.enabled": false,
+  "telemetry.enableTelemetry": false,
+  "workbench.editor.restoreViewState": false
+}

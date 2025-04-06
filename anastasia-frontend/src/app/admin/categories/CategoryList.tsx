@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
@@ -37,7 +37,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button<{ danger?: boolean }>`
-  background: ${({ danger, theme }) => danger ? "#e74c3c" : theme.primary};
+  background: ${({ danger, theme }) => (danger ? "#e74c3c" : theme.primary)};
   color: white;
   border: none;
   padding: 8px 12px;
@@ -54,7 +54,8 @@ const Button = styled.button<{ danger?: boolean }>`
 export default function CategoryList() {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
   const fetchCategories = async () => {
     try {

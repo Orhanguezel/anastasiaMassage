@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styled from "styled-components";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 
 const Form = styled.form`
   max-width: 500px;
@@ -66,7 +66,15 @@ export default function AppointmentPage() {
     try {
       await axios.post("/appointments", form);
       setSuccess(true);
-      setForm({ name: "", email: "", phone: "", serviceType: "", date: "", time: "", note: "" });
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        serviceType: "",
+        date: "",
+        time: "",
+        note: "",
+      });
     } catch (err) {
       alert("Hata oluştu!");
       console.error(err);
@@ -78,7 +86,12 @@ export default function AppointmentPage() {
       <h1 style={{ textAlign: "center", marginTop: "2rem" }}>🗓️ Randevu Al</h1>
 
       <Form onSubmit={handleSubmit}>
-        <Select name="serviceType" value={form.serviceType} onChange={handleChange} required>
+        <Select
+          name="serviceType"
+          value={form.serviceType}
+          onChange={handleChange}
+          required
+        >
           <option value="">Masaj Türü Seçin</option>
           <option value="Aromaterapi Masajı">Aromaterapi Masajı</option>
           <option value="Refleksoloji">Refleksoloji</option>
@@ -86,17 +99,57 @@ export default function AppointmentPage() {
           <option value="Anti-selülit Masajı">Anti-selülit Masajı</option>
         </Select>
 
-        <Input type="date" name="date" value={form.date} onChange={handleChange} required />
-        <Input type="time" name="time" value={form.time} onChange={handleChange} required />
+        <Input
+          type="date"
+          name="date"
+          value={form.date}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          type="time"
+          name="time"
+          value={form.time}
+          onChange={handleChange}
+          required
+        />
 
-        <Input name="name" placeholder="Ad Soyad" value={form.name} onChange={handleChange} required />
-        <Input name="email" placeholder="E-posta" value={form.email} onChange={handleChange} required />
-        <Input name="phone" placeholder="Telefon" value={form.phone} onChange={handleChange} required />
-        <Textarea name="note" placeholder="Not (isteğe bağlı)" rows={3} value={form.note} onChange={handleChange} />
+        <Input
+          name="name"
+          placeholder="Ad Soyad"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          name="email"
+          placeholder="E-posta"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          name="phone"
+          placeholder="Telefon"
+          value={form.phone}
+          onChange={handleChange}
+          required
+        />
+        <Textarea
+          name="note"
+          placeholder="Not (isteğe bağlı)"
+          rows={3}
+          value={form.note}
+          onChange={handleChange}
+        />
 
         <Button type="submit">Randevu Oluştur</Button>
 
-        {success && <p style={{ color: "green", textAlign: "center" }}>✅ Randevunuz başarıyla oluşturuldu.</p>}
+        {success && (
+          <p style={{ color: "green", textAlign: "center" }}>
+            ✅ Randevunuz başarıyla oluşturuldu.
+          </p>
+        )}
       </Form>
     </div>
   );

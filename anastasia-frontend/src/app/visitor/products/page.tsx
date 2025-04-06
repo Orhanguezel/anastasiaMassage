@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useTranslation } from "../../../../node_modules/react-i18next";

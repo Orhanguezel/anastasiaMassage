@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
-import axios from "@/lib/axios";
+import axios from "@/lib/api";
 
 const Overlay = styled.div`
   position: fixed;
@@ -79,7 +79,8 @@ interface Props {
 
 export default function OrderDetailModal({ order, onClose }: Props) {
   const [status, setStatus] = React.useState(order.status);
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
   const handleStatusChange = async () => {
     try {
@@ -106,7 +107,9 @@ export default function OrderDetailModal({ order, onClose }: Props) {
 
         <Section>
           <Label>Müşteri:</Label>
-          <Value>{order.user?.name} – {order.user?.email}</Value>
+          <Value>
+            {order.user?.name} – {order.user?.email}
+          </Value>
         </Section>
 
         <Section>

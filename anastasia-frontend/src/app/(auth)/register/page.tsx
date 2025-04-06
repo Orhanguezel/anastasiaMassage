@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { registerUser } from "@/store/authSlice";
+import { registerUser } from "@/store/user/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { RootState } from "@/store";
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   background: ${({ theme }) => theme.backgroundSecondary};
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   color: ${({ theme }) => theme.text};
 `;
 
@@ -83,7 +83,7 @@ export default function RegisterPage() {
   };
 
   useEffect(() => {
-    if (user?.token) {
+    if (user?._id || user?.email) {
       router.push("/admin");
     }
   }, [user, router]);

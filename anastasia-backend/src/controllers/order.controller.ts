@@ -109,6 +109,8 @@ export const getAllOrders = asyncHandler(async (_req: Request, res: Response): P
     .sort({ createdAt: -1 });
 
   res.status(200).json(orders);
+  console.log("🟢 Orders response:", orders[0]);
+
 });
 
 // ✅ Mark Order as Delivered
@@ -132,7 +134,7 @@ export const updateOrderStatus = asyncHandler(async (req: Request, res: Response
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    res.status(404).json({ message: "Order not found" });
+    res.status(404).json({ message: "Order not found",order });
     return;
   }
 

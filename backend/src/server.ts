@@ -11,11 +11,20 @@ const app: Express = express();
 
 connectDB();
 
-app.use(express.json({ strict: false }));
+
+
+const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 app.use(cors({
-  origin: "http://localhost:3000", // frontend URL
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
+app.use(express.json({ strict: false }));
 
 app.use("/uploads", express.static("uploads"));
 

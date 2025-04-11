@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "styled-components";
-import { useTranslation } from "../../../../../node_modules/react-i18next";
+import { useTranslation } from "react-i18next";
 import { FaLeaf, FaSpa, FaHandsHelping, FaHeartbeat } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -83,4 +83,3 @@ export default function ServicesList() {
     </Wrapper>
   );
 }
-

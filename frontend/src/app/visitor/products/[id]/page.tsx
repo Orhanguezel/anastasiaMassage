@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "@/lib/api";
 import styled from "styled-components";
-import { useTranslation } from "../../../../../node_modules/react-i18next";
+import { useTranslation } from "react-i18next";
 
 const Wrapper = styled.section`
   padding: 4rem 2rem;

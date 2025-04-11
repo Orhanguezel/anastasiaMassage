@@ -11,8 +11,7 @@ Bu frontend projesi aşağıdaki ana teknolojilerle geliştirilecektir:
 - **Framer Motion** (animasyonlar)
 - **React Hook Form + Yup** (form doğrulama)
 - **JWT tabanlı Auth yapısı** (token auth)
-- **Responsive tasarım + mobil uyumluluk**
-
+- **Responsive tasarım + mobil uyumlulu
 ---
 
 ## 📅 Randevu Modülü (Appointments)

@@ -24,9 +24,7 @@ dispatch(login({ email, password }));
 ```ts
 dispatch(fetchMyProfile());
 dispatch(updateMyProfile({ name, email }));
-```
-
----
+```-
 
 ## 3. 👥 `userCrudSlice`
 **Amaç:** Admin panelde tüm kullanıcıların listelenmesi, düzenlenmesi, silinmesi.

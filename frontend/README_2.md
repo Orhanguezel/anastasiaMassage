@@ -2,7 +2,6 @@
 
 Bu doküman, proje kapsamında oluşturulan Redux slice'larının her birini açıklamakta ve ne amaçla, nasıl kullanılacağını örneklerle detaylandırmaktadır.
 
----
 
 ## 1. 🔐 `authSlice`
 **Amaç:** Kullanıcı girişi, çıkışı ve token yönetimi.

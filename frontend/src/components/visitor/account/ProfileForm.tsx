@@ -2,9 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { getUserProfile, updateUserProfile, clearProfileMessages } from "@/store/user/profileSlice";
+import { updateUserProfile, clearProfileMessages } from "@/store/user/profileSlice";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
+
+// ✅ Gerekli props tipi
+interface Props {
+  profile: {
+    _id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    profileImage?: string;
+  };
+}
 
 const FormWrapper = styled.div`
   max-width: 500px;
@@ -44,26 +55,15 @@ const Message = styled.p<{ success?: boolean }>`
   margin-bottom: 1rem;
 `;
 
-export default function ProfileForm() {
+// 🔁 Profile prop'u alınacak
+export default function ProfileForm({ profile }: Props) {
   const dispatch = useAppDispatch();
-  const { profile, loading, error, successMessage } = useAppSelector((state) => state.profile);
+  const { loading, error, successMessage } = useAppSelector((state) => state.profile);
   const { t } = useTranslation();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-
-  useEffect(() => {
-    dispatch(getUserProfile());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (profile) {
-      setName(profile.name);
-      setEmail(profile.email);
-      setPhone(profile.phone || "");
-    }
-  }, [profile]);
+  const [name, setName] = useState(profile.name);
+  const [email, setEmail] = useState(profile.email);
+  const [phone, setPhone] = useState(profile.phone || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

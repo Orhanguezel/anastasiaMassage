@@ -4,7 +4,10 @@
     "services": "Hizmetler",
     "products": "Ürünler",
     "blog": "Blog",
-    "appointment": "Randevu"
+    "appointment": "Randevu",
+    "login": "Giriş",
+    "register": "Kayıt",
+    "profile": "Profilim"
   },
   "home": {
     "aboutTitle": "Hakkımızda",
@@ -33,19 +36,19 @@
     }
   },
   "contact": {
-  "title": "İletişim",
-  "address": "Adres",
-  "phone": "Telefon",
-  "email": "E-posta"
-},
-"footer": {
-  "privacy": "Gizlilik",
-  "kvkk": "KVKK",
-  "about": "Hakkımızda",
-  "appointment": "Randevu",
-  "rights": "Tüm hakları saklıdır."
-},
-"services": {
+    "title": "İletişim",
+    "address": "Adres",
+    "phone": "Telefon",
+    "email": "E-posta"
+  },
+  "footer": {
+    "privacy": "Gizlilik",
+    "kvkk": "KVKK",
+    "about": "Hakkımızda",
+    "appointment": "Randevu",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "services": {
     "title": "Tüm Hizmetlerimiz",
     "items": [
       {
@@ -72,25 +75,25 @@
     "noDescription": "Ürün açıklaması bulunmamaktadır."
   },
   "login": {
-  "title": "Giriş Yap",
-  "email": "E-posta",
-  "password": "Şifre",
-  "submit": "Giriş Yap",
-  "loading": "Giriş yapılıyor...",
-  "success": "🎉 Başarıyla giriş yaptınız!",
-  "error": "❌ Giriş başarısız. Bilgilerinizi kontrol edin."
-},
-"register": {
-  "title": "Kayıt Ol",
-  "name": "Adınız",
-  "email": "E-posta",
-  "password": "Şifre",
-  "submit": "Kayıt Ol",
-  "loading": "Kayıt yapılıyor...",
-  "success": "✅ Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.",
-  "error": "❌ Kayıt başarısız. Bilgileri kontrol edin."
-},
-"product": {
+    "title": "Giriş Yap",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Giriş Yap",
+    "loading": "Giriş yapılıyor...",
+    "success": "🎉 Başarıyla giriş yaptınız!",
+    "error": "❌ Giriş başarısız. Bilgilerinizi kontrol edin."
+  },
+  "register": {
+    "title": "Kayıt Ol",
+    "name": "Adınız",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Kayıt Ol",
+    "loading": "Kayıt yapılıyor...",
+    "success": "✅ Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.",
+    "error": "❌ Kayıt başarısız. Bilgileri kontrol edin."
+  },
+  "product": {
     "pageTitle": "🛒 Ürünler",
     "add": "➕ Yeni Ürün Ekle",
     "all": "Tümü",
@@ -110,8 +113,37 @@
     "edit": "Düzenle",
     "delete": "Sil",
     "cancel": "Vazgeç"
+  },
+  "profile": {
+    "title": "Profilim",
+    "name": "Ad",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "updateButton": "Profili Güncelle",
+    "uploadImage": "Profil Fotoğrafı Yükle",
+    "success": "Profil başarıyla güncellendi.",
+    "error": "Bir hata oluştu.",
+    "selectImage": "Resim Seç",
+    "changeImage": "Resmi Değiştir",
+   "image": {
+      "label": "Profilbild",
+      "loading": "Wird hochgeladen..."
+    }
+  },
+  "account": {
+    "image": {
+      "change": "Fotoğrafı Değiştir",
+      "uploading": "Yükleniyor..."
+    },
+    "title": "Profil",
+  "loading": "Yükleniyor...",
+  "error": "Bir hata oluştu.",
+  "updateSuccess": "Profil başarıyla güncellendi.",
+  "imageUpdateSuccess": "Profil fotoğrafı başarıyla yüklendi.",
+  "uploadLabel": "Yeni profil fotoğrafı seçin",
+  "name": "Ad Soyad",
+  "email": "E-posta",
+  "phone": "Telefon",
+  "save": "Kaydet"
   }
-
-
-
 }

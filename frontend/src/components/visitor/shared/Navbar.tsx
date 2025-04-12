@@ -127,23 +127,7 @@ export default function Navbar() {
                 <option value="en">EN</option>
                 <option value="de">DE</option>
               </LangSelect>
-              {!isAuthenticated ? (
-                <>
-                  <MenuLink href="/login">{t("navbar.login")}</MenuLink>
-                  <MenuLink href="/register">{t("navbar.register")}</MenuLink>
-                </>
-              ) : (
-                <MenuLink href="/account">
-                  <Image
-                    src={getImageSrc(user?.profileImage)}
-                    alt="Profil"
-                    width={32}
-                    height={32}
-                    priority
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
-                  />
-                </MenuLink>
-              )}
+             
               <Hamburger onClick={() => setMobileOpen((prev) => !prev)}>
                 {mobileOpen ? <FaTimes /> : <FaBars />}
               </Hamburger>

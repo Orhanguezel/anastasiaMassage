@@ -4,7 +4,10 @@
     "services": "Services",
     "products": "Products",
     "blog": "Blog",
-    "appointment": "Appointment"
+    "appointment": "Appointment",
+    "login": "Login",
+    "register": "Register",
+    "profile": "My Profile"
   },
   "home": {
     "aboutTitle": "About Us",
@@ -72,24 +75,54 @@
     "noDescription": "No product description available."
   },
   "login": {
-  "title": "Login",
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "loading": "Logging in...",
+    "success": "🎉 Successfully logged in!",
+    "error": "❌ Login failed. Please check your credentials."
+  },
+  "register": {
+    "title": "Register",
+    "name": "Your Name",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Register",
+    "loading": "Registering...",
+    "success": "✅ Registration successful! Redirecting to login...",
+    "error": "❌ Registration failed. Please check your info."
+  },
+  "profile": {
+    "title": "My Profile",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "updateButton": "Update Profile",
+    "uploadImage": "Upload Profile Picture",
+    "success": "Profile updated successfully.",
+    "error": "An error occurred.",
+    "selectImage": "Select Image",
+    "changeImage": "Change Image",
+    "image": {
+      "label": "Profile Picture",
+      "loading": "Uploading..."
+    }
+  },
+  "account": {
+    "image": {
+      "change": "Change Photo",
+      "uploading": "Uploading..."
+    },
+    "title": "Profile",
+  "loading": "Loading...",
+  "error": "An error occurred.",
+  "updateSuccess": "Profile updated successfully.",
+  "imageUpdateSuccess": "Profile picture uploaded successfully.",
+  "uploadLabel": "Select a new profile image",
+  "name": "Full Name",
   "email": "Email",
-  "password": "Password",
-  "submit": "Login",
-  "loading": "Logging in...",
-  "success": "🎉 Successfully logged in!",
-  "error": "❌ Login failed. Please check your credentials."
-},
-"register": {
-  "title": "Register",
-  "name": "Your Name",
-  "email": "Email",
-  "password": "Password",
-  "submit": "Register",
-  "loading": "Registering...",
-  "success": "✅ Registration successful! Redirecting to login...",
-  "error": "❌ Registration failed. Please check your info."
+  "phone": "Phone",
+  "save": "Save"
 }
-
-
 }

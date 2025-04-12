@@ -4,7 +4,11 @@
     "services": "Dienstleistungen",
     "products": "Produkte",
     "blog": "Blog",
-    "appointment": "Termin"
+    "appointment": "Termin",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "profile": "Mein Profil",
+    "contact": "Kontakt"
   },
   "home": {
     "aboutTitle": "Über Uns",
@@ -72,25 +76,56 @@
     "noDescription": "Keine Produktbeschreibung vorhanden."
   },
   "login": {
-  "title": "Anmelden",
+    "title": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "loading": "Anmeldung läuft...",
+    "success": "🎉 Erfolgreich eingeloggt!",
+    "error": "❌ Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Angaben."
+  },
+  "register": {
+    "title": "Registrieren",
+    "name": "Ihr Name",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Registrieren",
+    "loading": "Registrierung läuft...",
+    "success": "✅ Registrierung erfolgreich! Weiterleitung zur Anmeldung...",
+    "error": "❌ Registrierung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten."
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "updateButton": "Profil aktualisieren",
+    "uploadImage": "Profilbild hochladen",
+    "success": "Profil wurde erfolgreich aktualisiert.",
+    "error": "Ein Fehler ist aufgetreten.",
+    "selectImage": "Bild auswählen",
+    "changeImage": "Bild ändern"
+  },
+  "account": {
+    "image": {
+      "change": "Foto ändern",
+      "uploading": "Wird hochgeladen..."
+    },
+    "title": "Profil",
+  "loading": "Wird geladen...",
+  "error": "Ein Fehler ist aufgetreten.",
+  "updateSuccess": "Profil wurde erfolgreich aktualisiert.",
+  "imageUpdateSuccess": "Profilbild wurde erfolgreich hochgeladen.",
+  "uploadLabel": "Neues Profilbild auswählen",
+  "name": "Vollständiger Name",
   "email": "E-Mail",
-  "password": "Passwort",
-  "submit": "Anmelden",
-  "loading": "Anmeldung läuft...",
-  "success": "🎉 Erfolgreich eingeloggt!",
-  "error": "❌ Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Angaben."
-},
-"register": {
-  "title": "Registrieren",
-  "name": "Ihr Name",
-  "email": "E-Mail",
-  "password": "Passwort",
-  "submit": "Registrieren",
-  "loading": "Registrierung läuft...",
-  "success": "✅ Registrierung erfolgreich! Weiterleitung zur Anmeldung...",
-  "error": "❌ Registrierung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten."
+  "phone": "Telefon",
+  "save": "Speichern",
+  "profile": {
+    "image": {
+      "label": "Profilbild",
+      "loading": "Wird hochgeladen..."
+    }
+  }
+  }
 }
-
-
-}
-

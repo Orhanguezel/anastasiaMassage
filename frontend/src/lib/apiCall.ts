@@ -1,4 +1,3 @@
-// src/lib/apiCall.ts
 import API from "./api";
 
 const apiCall = async (
@@ -27,23 +26,30 @@ const apiCall = async (
 
   } catch (error: any) {
     const status = error?.response?.status || "Unknown";
-    const errorData = error?.response?.data || {};
+    const errorData = error?.response?.data ?? {};
     const message =
       errorData?.message ||
       errorData?.errors?.[Object.keys(errorData.errors || {})[0]]?.message || // mongoose hataları
       error?.message ||
       "Etwas ist schiefgelaufen!";
-
-      console.error("❌ API Fehler / Error Details:", {
-        url: url || "Unbekannte URL",
-        status: status || "Unbekannter Status",
-        data: errorData || "Keine Daten vorhanden",
-      });
       
+      if (error?.response) {
+        const { status, data, config } = error.response;
+        console.error("❌ API Fehler / Error Details:", {
+          url: config?.url || "Unbekannte URL",
+          status,
+          data,
+        });
+    } else {
 
-    return rejectWithValue(message);
+    console.error("❌ API Fehler:", message);
+    return rejectWithValue({
+      status,
+      message,
+      data: errorData,
+    });
   }
 };
+  }
 
 export default apiCall;
-

@@ -11,14 +11,17 @@ const app: Express = express();
 
 connectDB();
 
+// Rate Limit
 const Limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
   message: "Too many requests, please try again later.",
 });
 
+// 🥇 Cookie parser en başta olmalı
+app.use(cookieParser());
 
-
+// 🥈 CORS
 const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 app.use(cors({
   origin: function (origin, callback) {
@@ -30,17 +33,14 @@ app.use(cors({
   },
   credentials: true,
 }));
+
+// 🥉 Diğer Middlewares
 app.use(express.json({ strict: false }));
-
+app.use(Limiter);
 app.use("/uploads", express.static("uploads"));
-
-app.use(cookieParser());
-
-const port = process.env.PORT || 5011;
-
 app.use("/api", routes);
 
+const port = process.env.PORT || 5011;
 app.listen(port, () => {
-  console.log(` Server working on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
-

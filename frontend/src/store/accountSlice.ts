@@ -17,6 +17,8 @@ interface Account {
   name: string;
   email: string;
   phone?: string;
+  profileImage?: string;
+  address?: string;
   notifications?: NotificationSettings;
   socialMedia?: SocialMediaLinks;
 }
@@ -36,8 +38,10 @@ const initialState: AccountState = {
 };
 
 // Thunks
-export const fetchMyProfile = createAsyncThunk("account/fetchMyProfile", async (_, thunkAPI) =>
-  await apiCall("get", "/account/profile", null, thunkAPI.rejectWithValue)
+export const fetchMyProfile = createAsyncThunk(
+  "account/fetchMyProfile",
+  async (_, thunkAPI) =>
+    await apiCall("get", "/account/profile", null, thunkAPI.rejectWithValue)
 );
 
 export const updateMyProfile = createAsyncThunk(
@@ -55,13 +59,25 @@ export const updateMyPassword = createAsyncThunk(
 export const updateNotificationSettings = createAsyncThunk(
   "account/updateNotificationSettings",
   async (data: NotificationSettings, thunkAPI) =>
-    await apiCall("put", "/account/notifications", data, thunkAPI.rejectWithValue)
+    await apiCall(
+      "put",
+      "/account/notifications",
+      data,
+      thunkAPI.rejectWithValue
+    )
 );
 
 export const updateSocialMediaLinks = createAsyncThunk(
   "account/updateSocialMediaLinks",
   async (data: SocialMediaLinks, thunkAPI) =>
     await apiCall("put", "/account/social", data, thunkAPI.rejectWithValue)
+);
+
+// 👤 Aktif kullanıcıyı getir
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/fetchCurrentUser",
+  async (_, thunkAPI) =>
+    await apiCall("get", "/account/me", null, thunkAPI.rejectWithValue)
 );
 
 // Slice
@@ -114,7 +130,8 @@ const accountSlice = createSlice({
       .addCase(updateNotificationSettings.pending, loading)
       .addCase(updateNotificationSettings.fulfilled, (state, action) => {
         state.loading = false;
-        if (state.profile) state.profile.notifications = action.payload.notifications;
+        if (state.profile)
+          state.profile.notifications = action.payload.notifications;
         state.successMessage = action.payload.message;
       })
       .addCase(updateNotificationSettings.rejected, failed);
@@ -123,10 +140,26 @@ const accountSlice = createSlice({
       .addCase(updateSocialMediaLinks.pending, loading)
       .addCase(updateSocialMediaLinks.fulfilled, (state, action) => {
         state.loading = false;
-        if (state.profile) state.profile.socialMedia = action.payload.socialMedia;
+        if (state.profile)
+          state.profile.socialMedia = action.payload.socialMedia;
         state.successMessage = action.payload.message;
       })
       .addCase(updateSocialMediaLinks.rejected, failed);
+
+    builder
+      // Fetch Current User
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })      
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 

@@ -14,6 +14,47 @@ import { logoutUser } from "@/store/user/authSlice"; // ✅ doğru thunk
 import { useRouter } from "next/navigation";
 import { AppDispatch } from "@/store"; // typing
 
+
+export default function Sidebar() {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const result = await dispatch(logoutUser());
+
+    if (logoutUser.fulfilled.match(result)) {
+      router.push("/login");
+    }
+  };
+
+  return (
+    <SidebarWrapper>
+      <MenuLink href="/admin">
+        <FaHome />
+        Dashboard
+      </MenuLink>
+      <MenuLink href="/admin/appointments">
+        <FaCalendarAlt />
+        Randevular
+      </MenuLink>
+      <MenuLink href="/admin/products">
+        <FaBoxOpen />
+        Ürünler
+      </MenuLink>
+      <MenuLink href="/admin/users">
+        <FaUsers />
+        Kullanıcılar
+      </MenuLink>
+
+      <LogoutButton onClick={handleLogout}>
+        <FaSignOutAlt />
+        Çıkış Yap
+      </LogoutButton>
+    </SidebarWrapper>
+  );
+}
+
+
 const SidebarWrapper = styled.aside`
   width: 240px;
   background: ${({ theme }) => theme.backgroundSecondary};
@@ -56,42 +97,3 @@ const LogoutButton = styled.button`
     background: rgba(255, 0, 0, 0.05);
   }
 `;
-
-export default function Sidebar() {
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    const result = await dispatch(logoutUser());
-
-    if (logoutUser.fulfilled.match(result)) {
-      router.push("/login");
-    }
-  };
-
-  return (
-    <SidebarWrapper>
-      <MenuLink href="/admin">
-        <FaHome />
-        Dashboard
-      </MenuLink>
-      <MenuLink href="/admin/appointments">
-        <FaCalendarAlt />
-        Randevular
-      </MenuLink>
-      <MenuLink href="/admin/products">
-        <FaBoxOpen />
-        Ürünler
-      </MenuLink>
-      <MenuLink href="/admin/users">
-        <FaUsers />
-        Kullanıcılar
-      </MenuLink>
-
-      <LogoutButton onClick={handleLogout}>
-        <FaSignOutAlt />
-        Çıkış Yap
-      </LogoutButton>
-    </SidebarWrapper>
-  );
-}

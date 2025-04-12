@@ -1,19 +1,22 @@
 "use client";
 
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   FaMoon,
   FaSun,
   FaInstagram,
-  FaFacebook,
-  FaWhatsapp,
+  FaTiktok,
+  FaPinterestP,
+  FaSearch,
   FaPhone,
   FaBars,
   FaTimes,
 } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { ThemeContext } from "@/app/providers/ThemeProviderWrapper";
 import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { getImageSrc } from "@/utils/getImageSrc";
+
 import {
   TopBar,
   SocialLinks,
@@ -31,6 +34,7 @@ import {
   Hamburger,
   DesktopMenu,
   MenuItem,
+  MenuItem1,
   MenuLink,
   MenuBar,
   StickyMenu,
@@ -38,18 +42,23 @@ import {
   MobileMenu,
 } from "./NavbarStyles";
 
+import { ThemeContext } from "@/app/providers/ThemeProviderWrapper";
+import { useAppSelector } from "@/store/hooks";
+
 export default function Navbar() {
+  const { profile: user } = useAppSelector((state) => state.account);
+  const isAuthenticated = !!user;
+
   const [hasMounted, setHasMounted] = useState(false);
   const [showStickyMenu, setShowStickyMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
   const { t, i18n } = useTranslation();
   const { toggle, isDark } = useContext(ThemeContext);
 
   useEffect(() => {
     setHasMounted(true);
-    const handleScroll = () => {
-      setShowStickyMenu(window.scrollY > 120);
-    };
+    const handleScroll = () => setShowStickyMenu(window.scrollY > 120);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -69,8 +78,7 @@ export default function Navbar() {
       <MenuItem><MenuLink href="/visitor/products">{t("navbar.products")}</MenuLink></MenuItem>
       <MenuItem><MenuLink href="/visitor/blogs">{t("navbar.blog")}</MenuLink></MenuItem>
       <MenuItem><MenuLink href="/visitor/appointment">{t("navbar.appointment")}</MenuLink></MenuItem>
-      <MenuItem><MenuLink href="/login">Login</MenuLink></MenuItem>
-      <MenuItem><MenuLink href="/register">Register</MenuLink></MenuItem>
+      <MenuItem1><MenuLink href="/search"><FaSearch /></MenuLink></MenuItem1>
     </>
   );
 
@@ -81,8 +89,14 @@ export default function Navbar() {
       <MobileMenuLink href="/visitor/products" onClick={() => setMobileOpen(false)}>{t("navbar.products")}</MobileMenuLink>
       <MobileMenuLink href="/visitor/blogs" onClick={() => setMobileOpen(false)}>{t("navbar.blog")}</MobileMenuLink>
       <MobileMenuLink href="/visitor/appointment" onClick={() => setMobileOpen(false)}>{t("navbar.appointment")}</MobileMenuLink>
-      <MobileMenuLink href="/login" onClick={() => setMobileOpen(false)}>Login</MobileMenuLink>
-      <MobileMenuLink href="/register" onClick={() => setMobileOpen(false)}>Register</MobileMenuLink>
+      {!isAuthenticated ? (
+        <>
+          <MobileMenuLink href="/login" onClick={() => setMobileOpen(false)}>Login</MobileMenuLink>
+          <MobileMenuLink href="/register" onClick={() => setMobileOpen(false)}>Register</MobileMenuLink>
+        </>
+      ) : (
+        <MobileMenuLink href="/account" onClick={() => setMobileOpen(false)}>Account</MobileMenuLink>
+      )}
     </>
   );
 
@@ -99,13 +113,11 @@ export default function Navbar() {
             <LogoWrapper href="/">
               <LogoImage src={logoSrc} alt="Logo" width={40} height={40} />
               <LogoTextWrapper>
-                <LogoText>Anastasia</LogoText>
-                <LogoText2>König Massagesalon</LogoText2>
+                <LogoText>Königs Massage</LogoText>
+                <LogoText2>Anastasia</LogoText2>
               </LogoTextWrapper>
             </LogoWrapper>
-
             <DesktopMenu>{desktopMenuItems}</DesktopMenu>
-
             <RightControls>
               <ThemeToggle onClick={toggle}>
                 {isDark ? <FaSun /> : <FaMoon />}
@@ -115,23 +127,27 @@ export default function Navbar() {
                 <option value="en">EN</option>
                 <option value="de">DE</option>
               </LangSelect>
+              {!isAuthenticated ? (
+                <>
+                  <MenuLink href="/login">{t("navbar.login")}</MenuLink>
+                  <MenuLink href="/register">{t("navbar.register")}</MenuLink>
+                </>
+              ) : (
+                <MenuLink href="/account">
+                  <Image
+                    src={getImageSrc(user?.profileImage)}
+                    alt="Profil"
+                    width={32}
+                    height={32}
+                    priority
+                    style={{ borderRadius: "50%", objectFit: "cover" }}
+                  />
+                </MenuLink>
+              )}
               <Hamburger onClick={() => setMobileOpen((prev) => !prev)}>
                 {mobileOpen ? <FaTimes /> : <FaBars />}
               </Hamburger>
             </RightControls>
-
-            <AnimatePresence>
-              {mobileOpen && (
-                <MobileMenu
-                  initial={{ y: -10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -10, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {mobileMenuItems}
-                </MobileMenu>
-              )}
-            </AnimatePresence>
           </StickyMenu>
         )}
       </AnimatePresence>
@@ -140,21 +156,20 @@ export default function Navbar() {
         <TopBar>
           <SocialLinks>
             <a href="https://instagram.com" target="_blank"><FaInstagram /></a>
-            <a href="https://facebook.com" target="_blank"><FaFacebook /></a>
-            <a href="https://wa.me/905321234567" target="_blank"><FaWhatsapp /></a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
+            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer"><FaPinterestP /></a>
           </SocialLinks>
-          <Phone><FaPhone /> 0531 311 92 95</Phone>
+          <Phone><FaPhone /> 017641107158</Phone>
         </TopBar>
 
         <CenterSection>
           <LogoWrapper href="/">
             <LogoImage src={logoSrc} alt="Logo" width={60} height={60} />
             <LogoTextWrapper>
-              <LogoText>Anastasia</LogoText>
-              <LogoText2>König Massagesalon</LogoText2>
+              <LogoText>Königs Massage</LogoText>
+              <LogoText2>Anastasia</LogoText2>
             </LogoTextWrapper>
           </LogoWrapper>
-
           <RightControls>
             <ThemeToggle onClick={toggle}>
               {isDark ? <FaSun /> : <FaMoon />}
@@ -164,6 +179,23 @@ export default function Navbar() {
               <option value="en">EN</option>
               <option value="de">DE</option>
             </LangSelect>
+            {!isAuthenticated ? (
+              <>
+                <MenuLink href="/login">{t("navbar.login")}</MenuLink>
+                <MenuLink href="/register">{t("navbar.register")}</MenuLink>
+              </>
+            ) : (
+              <MenuLink href="/account">
+                <Image
+                  src={getImageSrc(user?.profileImage)}
+                  alt="Profil"
+                  width={32}
+                  height={32}
+                  priority
+                  style={{ borderRadius: "50%", objectFit: "cover" }}
+                />
+              </MenuLink>
+            )}
             <Hamburger onClick={() => setMobileOpen((prev) => !prev)}>
               {mobileOpen ? <FaTimes /> : <FaBars />}
             </Hamburger>

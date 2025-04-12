@@ -24,12 +24,12 @@ API.interceptors.response.use(
     const status = error.response?.status;
 
     if (status === 401 || status === 403) {
-      console.warn("🚪 Unauthorized request – redirecting to login...");
-      window.location.href = "/login";
+      console.warn("🚪 Unauthorized request – not authorized (silent).");
     }
 
     return Promise.reject(error);
   }
 );
+
 
 export default API;

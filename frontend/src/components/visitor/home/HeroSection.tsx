@@ -101,7 +101,7 @@ export default function HeroSection() {
       />
       <Overlay />
       <Content>
-        <Title>{t("home.heroTitle", "Anastasia König Masaj Salonu")}</Title>
+        <Title>{t("home.heroTitle", "Königs Masaj")}</Title>
         <Subtitle>{t("home.heroSubtitle", "Doğallığın dokunuşuyla sağlığınızı şımartın")}</Subtitle>
         <Link href="/visitor/appointment">
           <CTAButton>{t("home.cta", "🟣 Online Randevu Al")}</CTAButton>

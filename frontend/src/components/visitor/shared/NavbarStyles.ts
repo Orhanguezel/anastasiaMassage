@@ -206,6 +206,13 @@ const MobileMenu = styled(motion.div)`
     display: none;
   }
 `;
+const MenuItem1 = styled.li`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.4rem;
+  font-size: 0.9rem;
+`;
 
 
 export {
@@ -225,6 +232,7 @@ export {
     Hamburger,
     DesktopMenu,
     MenuItem,
+    MenuItem1,
     MenuLink,
     MenuBar,
     StickyMenu,

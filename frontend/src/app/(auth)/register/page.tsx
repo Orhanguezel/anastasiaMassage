@@ -9,50 +9,6 @@ import { toast } from "react-toastify";
 import { RootState } from "@/store";
 import { useTranslation } from "react-i18next";
 
-const Wrapper = styled.div`
-  max-width: 400px;
-  margin: 4rem auto;
-  background: ${({ theme }) => theme.backgroundSecondary};
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  color: ${({ theme }) => theme.text};
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 1rem;
-  border: 1px solid ${({ theme }) => theme.border || "#ccc"};
-  border-radius: 6px;
-  background: ${({ theme }) => theme.inputBackground || "#fff"};
-  color: ${({ theme }) => theme.text};
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  background: ${({ theme }) => theme.primary || "#5a2ea6"};
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background: ${({ theme }) => theme.primaryHover || "#4b2491"};
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -123,3 +79,49 @@ export default function RegisterPage() {
     </Wrapper>
   );
 }
+
+
+const Wrapper = styled.div`
+  max-width: 400px;
+  margin: 4rem auto;
+  background: ${({ theme }) => theme.backgroundSecondary};
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  color: ${({ theme }) => theme.text};
+`;
+
+const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid ${({ theme }) => theme.border || "#ccc"};
+  border-radius: 6px;
+  background: ${({ theme }) => theme.inputBackground || "#fff"};
+  color: ${({ theme }) => theme.text};
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 12px;
+  background: ${({ theme }) => theme.primary || "#5a2ea6"};
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.primaryHover || "#4b2491"};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;

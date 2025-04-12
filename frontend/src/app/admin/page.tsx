@@ -23,64 +23,6 @@ import {
   MdSettings,
 } from "react-icons/md";
 
-const Container = styled.div`
-  padding: 2rem;
-  color: ${({ theme }) => theme.text};
-`;
-
-const Title = styled.h1`
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-`;
-
-const Welcome = styled.p`
-  font-size: 1rem;
-  margin-bottom: 2rem;
-`;
-
-const StatGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-`;
-
-const Card = styled.div`
-  background: ${({ theme }) => theme.cardBackground || "#fff"};
-  padding: 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const StatIcon = styled.div`
-  font-size: 2rem;
-  color: ${({ theme }) => theme.primary};
-`;
-
-const StatInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StatValue = styled.span`
-  font-size: 1.4rem;
-  font-weight: bold;
-`;
-
-const StatLabel = styled.span`
-  font-size: 0.9rem;
-  color: ${({ theme }) => theme.textSecondary};
-`;
 
 export default function AdminDashboard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -247,3 +189,63 @@ export default function AdminDashboard() {
     </Container>
   );
 }
+
+
+const Container = styled.div`
+  padding: 2rem;
+  color: ${({ theme }) => theme.text};
+`;
+
+const Title = styled.h1`
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+`;
+
+const Welcome = styled.p`
+  font-size: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const StatGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+`;
+
+const Card = styled.div`
+  background: ${({ theme }) => theme.cardBackground || "#fff"};
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const StatIcon = styled.div`
+  font-size: 2rem;
+  color: ${({ theme }) => theme.primary};
+`;
+
+const StatInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StatValue = styled.span`
+  font-size: 1.4rem;
+  font-weight: bold;
+`;
+
+const StatLabel = styled.span`
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.textSecondary};
+`;

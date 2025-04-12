@@ -41,13 +41,6 @@ export const registerUser = createAsyncThunk(
     await apiCall("post", "/users/register", formData, thunkAPI.rejectWithValue)
 );
 
-// 👤 Aktif kullanıcıyı getir
-export const fetchCurrentUser = createAsyncThunk(
-  "auth/fetchCurrentUser",
-  async (_, thunkAPI) =>
-    await apiCall("get", "account/me", null, thunkAPI.rejectWithValue)
-);
-
 // 🔒 Şifre değiştir
 export const changePassword = createAsyncThunk(
   "auth/changePassword",
@@ -103,19 +96,7 @@ const authSlice = createSlice({
       state.error = action.payload as string;
     });
 
-    // Fetch Current User
-    builder.addCase(fetchCurrentUser.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
-      state.loading = false;
-      state.user = action.payload;
-    });
-    builder.addCase(fetchCurrentUser.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload as string;
-    });
+   
 
     // Change Password
     builder.addCase(changePassword.pending, (state) => {

@@ -9,6 +9,64 @@ import { toast } from "react-toastify";
 import { RootState } from "@/store";
 import { useTranslation } from "react-i18next";
 
+export default function LoginPage() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { t } = useTranslation();
+
+  const { loading, user } = useSelector((state: RootState) => state.auth); 
+
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = await dispatch(loginUser(form) as any);
+    if (result.meta.requestStatus === "fulfilled") {
+      toast.success(t("login.success"));
+      router.push("/admin");
+    } else {
+      toast.error(t("login.error"));
+    }
+  };
+
+  useEffect(() => {
+    if (user?._id || user?.email) {
+      router.push("/admin");
+    }
+  }, [user, router]);
+
+  return (
+    <Wrapper>
+      <Title>{t("login.title")}</Title>
+      <form onSubmit={handleSubmit}>
+        <Input
+          type="email"
+          name="email"
+          placeholder={t("login.email")}
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder={t("login.password")}
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+        <Button type="submit" disabled={loading}>
+          {loading ? t("login.loading") : t("login.submit")}
+        </Button>
+      </form>
+    </Wrapper>
+  );
+}
+
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 4rem auto;
@@ -53,62 +111,3 @@ const Button = styled.button`
     cursor: not-allowed;
   }
 `;
-
-export default function LoginPage() {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const { t } = useTranslation();
-
-  const { loading, user } = useSelector((state: RootState) => state.auth); // ✅ user objesi kullanılmalı
-
-  const [form, setForm] = useState({ email: "", password: "" });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = await dispatch(loginUser(form) as any);
-    if (result.meta.requestStatus === "fulfilled") {
-      toast.success(t("login.success"));
-      router.push("/admin");
-    } else {
-      toast.error(t("login.error"));
-    }
-  };
-
-  useEffect(() => {
-    // ✅ cookie varsa user gelir → kontrol buna göre
-    if (user?._id || user?.email) {
-      router.push("/admin");
-    }
-  }, [user, router]);
-
-  return (
-    <Wrapper>
-      <Title>{t("login.title")}</Title>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          name="email"
-          placeholder={t("login.email")}
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <Input
-          type="password"
-          name="password"
-          placeholder={t("login.password")}
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-        <Button type="submit" disabled={loading}>
-          {loading ? t("login.loading") : t("login.submit")}
-        </Button>
-      </form>
-    </Wrapper>
-  );
-}

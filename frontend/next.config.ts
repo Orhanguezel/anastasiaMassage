@@ -21,7 +21,12 @@ const nextConfig = {
     typedRoutes: false,
   },
   images: {
-    domains: ["localhost"],
+    domains: [
+      "localhost",
+      "via.placeholder.com",       // ✅ dış kaynak eklendi
+      "https://koenigsmassage.com/",      // varsa prod alan adını da ekleyebilirsin
+      "res.cloudinary.com",
+    ],
   },
 };
 

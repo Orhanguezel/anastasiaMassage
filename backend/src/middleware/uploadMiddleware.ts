@@ -10,7 +10,7 @@ dotenv.config();
 const BASE_UPLOAD_DIR = "uploads";
 const BASE_URL = process.env.BASE_URL || "http://localhost:5011";
 
-const UPLOAD_FOLDERS = {
+export const UPLOAD_FOLDERS = {
   profile: "profile-images",
   product: "product-images",
   category: "category-images",
@@ -21,15 +21,6 @@ const UPLOAD_FOLDERS = {
 } as const;
 
 type UploadFolderKeys = keyof typeof UPLOAD_FOLDERS;
-
-// TypeScript için request'e uploadType ekliyoruz
-declare global {
-  namespace Express {
-    interface Request {
-      uploadType?: UploadFolderKeys;
-    }
-  }
-}
 
 // 📁 Gerekli klasörleri oluştur
 Object.values(UPLOAD_FOLDERS).forEach((folder) => {
@@ -71,15 +62,14 @@ const fileFilter = (_req: Request, file: Express.Multer.File, cb: FileFilterCall
   }
 };
 
-
 // 🎯 Multer yapılandırması
 const upload = multer({
   storage,
-  limits: { fileSize: 20 * 1024 * 1024 }, 
+  limits: { fileSize: 20 * 1024 * 1024 },
   fileFilter,
 });
 
 // 🌐 uploads klasörünü statik olarak sun
 export const serveUploads = express.static(BASE_UPLOAD_DIR);
-export { BASE_URL };
+export { BASE_URL, UploadFolderKeys };
 export default upload;

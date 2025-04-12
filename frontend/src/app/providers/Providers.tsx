@@ -7,7 +7,7 @@ import ThemeProviderWrapper from "@/app/providers/ThemeProviderWrapper";
 import ReduxProvider from "@/app/providers/ReduxProvider";
 import Navbar from "@/components/visitor/shared/Navbar";
 import FooterSection from "@/components/visitor/home/FooterSection";
-import { fetchCurrentUser } from "@/store/user/authSlice";
+import { fetchCurrentUser } from "@/store/accountSlice";
 import type { AppDispatch } from "@/store";
 
 export default function Providers({ children }: { children: React.ReactNode }) {

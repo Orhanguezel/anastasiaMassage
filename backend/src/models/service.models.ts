@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
 export interface IService extends Document {
   title: string;
@@ -14,15 +14,42 @@ export interface IService extends Document {
 
 const serviceSchema = new Schema<IService>(
   {
-    title: { type: String, required: true },
-    shortDescription: { type: String, required: true },
-    detailedDescription: { type: String, required: true },
-    price: { type: Number, required: true },
-    durationMinutes: { type: Number, default: 60 },
-    images: [{ type: String }],
-    isActive: { type: Boolean, default: true },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    shortDescription: {
+      type: String,
+      required: true,
+      maxlength: 300,
+      trim: true,
+    },
+    detailedDescription: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    durationMinutes: {
+      type: Number,
+      default: 60,
+      min: 1,
+    },
+    images: {
+      type: [String],
+      default: [],
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
 
-export default model<IService>("Service", serviceSchema);
+const Service: Model<IService> = model<IService>("Service", serviceSchema);
+export default Service;

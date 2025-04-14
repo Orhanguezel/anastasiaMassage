@@ -5,7 +5,8 @@ export interface IContactMessage extends Document {
   email: string;
   subject: string;
   message: string;
-  createdAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const contactMessageSchema = new Schema<IContactMessage>(
@@ -14,9 +15,8 @@ const contactMessageSchema = new Schema<IContactMessage>(
     email: { type: String, required: true },
     subject: { type: String, required: true },
     message: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
   },
-  { timestamps: false }
+  { timestamps: true }
 );
 
 export default model<IContactMessage>("ContactMessage", contactMessageSchema);

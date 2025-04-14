@@ -1,27 +1,23 @@
+// src/controllers/account.controller.ts
+
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import User from "../models/user.models";
+import { getUserOrFail } from "../utils/validation";
+import { checkPassword, hashNewPassword } from "../services/authService";
 
 // ✅ Get Logged-in User Profile
 export const getMyProfile = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const user = await User.findById(req.user?._id).select("-password");
+  const user = await getUserOrFail(req.user!.id, res);
+  if (!user) return;
 
-  if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
-  }
-
-  res.json(user);
+  res.status(200).json(user);
 });
 
-// ✅ Update User Profile
+// ✅ Update Basic Profile Info
 export const updateMyProfile = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const user = await User.findById(req.user?._id);
-
-  if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
-  }
+  const user = await getUserOrFail(req.user!.id, res);
+  if (!user) return;
 
   const { name, email, phone } = req.body;
 
@@ -31,7 +27,7 @@ export const updateMyProfile = asyncHandler(async (req: Request, res: Response):
 
   const updatedUser = await user.save();
 
-  res.json({
+  res.status(200).json({
     message: "Profile updated successfully",
     user: {
       _id: updatedUser._id,
@@ -42,11 +38,9 @@ export const updateMyProfile = asyncHandler(async (req: Request, res: Response):
   });
 });
 
-// ✅ Update User Password
+// ✅ Update Password
 export const updateMyPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    const user = await User.findById(req.user?._id).select("+password");
-
-
+  const user = await User.findById(req.user!.id).select("+password");
   if (!user) {
     res.status(404).json({ message: "User not found" });
     return;
@@ -54,26 +48,24 @@ export const updateMyPassword = asyncHandler(async (req: Request, res: Response)
 
   const { currentPassword, newPassword } = req.body;
 
-  const isMatch = await user.comparePassword(currentPassword);
+  const isMatch = await checkPassword(currentPassword, user.password);
   if (!isMatch) {
     res.status(400).json({ message: "Current password is incorrect" });
     return;
   }
 
-  user.password = newPassword;
+  user.password = await hashNewPassword(newPassword);
   await user.save();
 
-  res.json({ message: "Password updated successfully" });
+  res.status(200).json({ message: "Password updated successfully" });
 });
 
-export const updateNotificationSettings = asyncHandler(async (req: Request, res: Response) => {
+// ✅ Update Notification Settings
+export const updateNotificationSettings = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { emailNotifications, smsNotifications } = req.body;
 
-  const user = await User.findById(req.user?._id);
-  if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
-  }
+  const user = await getUserOrFail(req.user!.id, res);
+  if (!user) return;
 
   user.notifications = {
     emailNotifications: emailNotifications ?? user.notifications?.emailNotifications,
@@ -81,18 +73,19 @@ export const updateNotificationSettings = asyncHandler(async (req: Request, res:
   };
 
   await user.save();
-  res.json({ message: "Notification preferences updated", notifications: user.notifications });
+
+  res.status(200).json({
+    message: "Notification preferences updated",
+    notifications: user.notifications,
+  });
 });
 
-
-export const updateSocialMediaLinks = asyncHandler(async (req: Request, res: Response) => {
+// ✅ Update Social Media Links
+export const updateSocialMediaLinks = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { facebook, instagram, twitter } = req.body;
 
-  const user = await User.findById(req.user?._id);
-  if (!user) {
-    res.status(404).json({ message: "User not found" });
-    return;
-  }
+  const user = await getUserOrFail(req.user!.id, res);
+  if (!user) return;
 
   user.socialMedia = {
     facebook: facebook ?? user.socialMedia?.facebook,
@@ -101,9 +94,9 @@ export const updateSocialMediaLinks = asyncHandler(async (req: Request, res: Res
   };
 
   await user.save();
-  res.json({ message: "Social media links updated", socialMedia: user.socialMedia });
+
+  res.status(200).json({
+    message: "Social media links updated",
+    socialMedia: user.socialMedia,
+  });
 });
-
-
-
-

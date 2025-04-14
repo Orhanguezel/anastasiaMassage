@@ -1,75 +1,89 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import Coupon from "../models/coupon.models";
+import Coupon, { ICoupon } from "../models/coupon.models";
+import { isValidObjectId } from "../utils/validation";
 
-// 🎟️ Create new coupon
-export const createCoupon = asyncHandler(async (req: Request, res: Response) => {
-  const { code, discount, expiresAt } = req.body;
+// 🎟️ Yeni kupon oluştur
+export const createCoupon = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { code, discount, expiresAt }: Partial<ICoupon> = req.body;
 
   if (!code || !discount || !expiresAt) {
     res.status(400).json({ message: "Code, discount and expiration date are required" });
     return;
   }
 
-  const exists = await Coupon.findOne({ code });
+  const exists = await Coupon.findOne({ code: code.toUpperCase() });
   if (exists) {
     res.status(400).json({ message: "Coupon code already exists" });
     return;
   }
 
   const coupon = await Coupon.create({
-    code,
+    code: code.toUpperCase().trim(),
     discount,
     expiresAt,
   });
 
-  res.status(201).json({ message: "Coupon created", coupon });
+  res.status(201).json({ message: "Coupon created successfully", coupon });
 });
 
-// 🧾 Get all coupons
-export const getAllCoupons = asyncHandler(async (_req: Request, res: Response) => {
+// 🧾 Tüm kuponları getir
+export const getAllCoupons = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
   const coupons = await Coupon.find().sort({ createdAt: -1 });
-  res.json(coupons);
+  res.status(200).json(coupons);
 });
 
-// 🔍 Get coupon by code
-export const getCouponByCode = asyncHandler(async (req: Request, res: Response) => {
+// 🔍 Kuponu kod ile getir
+export const getCouponByCode = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { code } = req.params;
-  const coupon = await Coupon.findOne({ code });
+  const coupon = await Coupon.findOne({ code: code.toUpperCase() });
 
   if (!coupon || !coupon.isActive) {
     res.status(404).json({ message: "Coupon not found or inactive" });
     return;
   }
 
-  res.json(coupon);
+  res.status(200).json(coupon);
 });
 
-// ✏️ Update coupon (admin only)
-export const updateCoupon = asyncHandler(async (req: Request, res: Response) => {
-  const coupon = await Coupon.findById(req.params.id);
+// ✏️ Kuponu güncelle (admin only)
+export const updateCoupon = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) {
+    res.status(400).json({ message: "Invalid coupon ID" });
+    return;
+  }
+
+  const coupon = await Coupon.findById(id);
   if (!coupon) {
     res.status(404).json({ message: "Coupon not found" });
     return;
   }
 
-  const { code, discount, expiresAt, isActive } = req.body;
-  coupon.code = code ?? coupon.code;
-  coupon.discount = discount ?? coupon.discount;
-  coupon.expiresAt = expiresAt ?? coupon.expiresAt;
-  coupon.isActive = typeof isActive === "boolean" ? isActive : coupon.isActive;
+  const { code, discount, expiresAt, isActive }: Partial<ICoupon> = req.body;
+
+  if (code) coupon.code = code.toUpperCase().trim();
+  if (discount) coupon.discount = discount;
+  if (expiresAt) coupon.expiresAt = new Date(expiresAt);
+  if (typeof isActive === "boolean") coupon.isActive = isActive;
 
   await coupon.save();
-  res.json({ message: "Coupon updated", coupon });
+  res.status(200).json({ message: "Coupon updated", coupon });
 });
 
-// 🗑️ Delete coupon
-export const deleteCoupon = asyncHandler(async (req: Request, res: Response) => {
-  const coupon = await Coupon.findByIdAndDelete(req.params.id);
+// 🗑️ Kupon sil
+export const deleteCoupon = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) {
+    res.status(400).json({ message: "Invalid coupon ID" });
+    return;
+  }
+
+  const coupon = await Coupon.findByIdAndDelete(id);
   if (!coupon) {
     res.status(404).json({ message: "Coupon not found or already deleted" });
     return;
   }
 
-  res.json({ message: "Coupon deleted" });
+  res.status(200).json({ message: "Coupon deleted successfully" });
 });

@@ -8,6 +8,8 @@ export interface IMailMessage extends Document {
   body: string;
   date: Date;
   isRead: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const mailSchema = new Schema<IMailMessage>(

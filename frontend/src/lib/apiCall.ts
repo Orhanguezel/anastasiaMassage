@@ -43,11 +43,7 @@ const apiCall = async (
     } else {
 
     console.error("❌ API Fehler:", message);
-    return rejectWithValue({
-      status,
-      message,
-      data: errorData,
-    });
+    return rejectWithValue({ status, message, data: errorData });
   }
 };
   }

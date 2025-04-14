@@ -1,3 +1,5 @@
+// src/models/payment.models.ts
+
 import { Schema, model, Document, Types } from "mongoose";
 
 export interface IPayment extends Document {

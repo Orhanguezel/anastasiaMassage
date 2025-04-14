@@ -1,185 +1,221 @@
-import { type Request, type Response } from "express";
-import Cart from "../models/cart.models";
-import Product from "../models/product.models";
-import Stock, { type IStock } from "../models/stock.models";
-import type { IProduct } from "../models/product.models";
+import { Request, Response } from "express";
 import { Types } from "mongoose";
+import Cart, { ICartItem } from "../models/cart.models";
+import Product from "../models/product.models";
+import Stock, { IStock } from "../models/stock.models";
+import { IProduct } from "../models/product.models";
 
+// 🧩 Yardımcı: Toplam fiyatı yeniden hesapla
+const recalculateTotal = (items: ICartItem[]): number =>
+  items.reduce((sum, item) => sum + item.quantity * item.priceAtAddition, 0);
+
+// 🧩 Yardımcı: Ürün ve stok getir
+const getProductWithStock = async (productId: string): Promise<IProduct | null> => {
+  return Product.findById(productId).populate("stockRef");
+};
+
+// 🧩 Yardımcı: Sepeti getir
+const getCartForUser = async (userId: string, populate = false) => {
+  return populate
+    ? Cart.findOne({ user: userId }).populate("items.product")
+    : Cart.findOne({ user: userId });
+};
+
+// ✅ Sepeti getir
 export const getUserCart = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const userId = req.user?.id;
-    if (!userId) return void res.status(400).json({ message: "User ID is required" });
-
-    let cart = await Cart.findOne({ user: userId }).populate("items.product");
-
-    if (!cart) {
-      cart = new Cart({ user: userId, items: [] });
-      await cart.save();
-      res.status(201).json(cart);
-      return;
-    }
-
-    cart.totalPrice = cart.items.reduce((total, item) => total + item.quantity * item.priceAtAddition, 0);
-    await cart.save();
-    res.json(cart);
-  } catch (err) {
-    res.status(500).json({ message: err instanceof Error ? err.message : "Internal server error" });
+  const userId = req.user?.id;
+  if (!userId) {
+    res.status(400).json({ message: "User ID is required" });
+    return;
   }
+
+  let cart = await getCartForUser(userId, true);
+  if (!cart) {
+    cart = new Cart({ user: userId, items: [], totalPrice: 0 });
+    await cart.save();
+    res.status(201).json(cart);
+    return;
+  }
+
+  cart.totalPrice = recalculateTotal(cart.items);
+  await cart.save();
+  res.status(200).json(cart);
 };
 
+// ✅ Sepete ürün ekle
 export const addToCart = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const userId = req.user?.id;
-    const { productId, quantity } = req.body;
+  const userId = req.user?.id;
+  const { productId, quantity } = req.body;
 
-    if (!userId || !productId || quantity <= 0) {
-      return void res.status(400).json({ message: "User ID, Product ID and valid quantity required" });
-    }
-
-    const product = await Product.findById(productId).populate("stockRef");
-    if (!product) return void res.status(404).json({ message: "Product not found" });
-
-    const availableStock = (product.stockRef as IStock)?.quantity ?? 0;
-    if (availableStock < quantity) {
-      return void res.status(400).json({ message: `Only ${availableStock} items available in stock` });
-    }
-
-    let cart = await Cart.findOne({ user: userId });
-    if (!cart) cart = new Cart({ user: userId, items: [] });
-
-    const existingIndex = cart.items.findIndex(item => item.product.toString() === productId);
-    if (existingIndex > -1) {
-      cart.items[existingIndex].quantity += quantity;
-    } else {
-      cart.items.push({
-        product: productId,
-        quantity,
-        priceAtAddition: product.price,
-      });
-    }
-
-    cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.priceAtAddition, 0);
-    await cart.save();
-    res.status(201).json({ message: "Product added", cart });
-  } catch (err) {
-    res.status(500).json({ message: "Error adding to cart", error: err });
+  if (!userId || !productId || quantity <= 0) {
+    res.status(400).json({ message: "Invalid product or quantity" });
+    return;
   }
+
+  const product = await getProductWithStock(productId);
+  if (!product) {
+    res.status(404).json({ message: "Product not found" });
+    return;
+  }
+
+  const stock = (product.stockRef as IStock)?.quantity ?? 0;
+  if (stock < quantity) {
+    res.status(400).json({ message: `Only ${stock} items in stock` });
+    return;
+  }
+
+  let cart = await getCartForUser(userId);
+  if (!cart) cart = new Cart({ user: userId, items: [], totalPrice: 0 });
+
+  const index = cart.items.findIndex(i => i.product.toString() === productId);
+  if (index > -1) {
+    cart.items[index].quantity += quantity;
+    cart.items[index].totalPriceAtAddition = cart.items[index].quantity * cart.items[index].priceAtAddition;
+  } else {
+    cart.items.push({
+      product: new Types.ObjectId(productId),
+      quantity,
+      priceAtAddition: product.price,
+      totalPriceAtAddition: quantity * product.price,
+    });
+  }
+
+  cart.totalPrice = recalculateTotal(cart.items);
+  await cart.save();
+  res.status(201).json({ message: "Added to cart", cart });
 };
 
+// ✅ Ürün adedini artır
 export const increaseQuantity = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const userId = req.user?.id;
-    const { productId } = req.params;
+  const userId = req.user?.id;
+  const { productId } = req.params;
 
-    if (!userId || !productId)
-      return void res.status(400).json({ message: "User ID and Product ID are required" });
-
-    const cart = await Cart.findOne({ user: userId }).populate("items.product");
-    if (!cart) return void res.status(404).json({ message: "Cart not found" });
-
-    const itemIndex = cart.items.findIndex((item) => {
-      const product = item.product as IProduct;
-      return product && (product._id as Types.ObjectId).equals(new Types.ObjectId(productId));
-    });
-
-    if (itemIndex === -1)
-      return void res.status(404).json({ message: "Item not found in cart" });
-
-    const product = await Product.findById(productId).populate("stockRef");
-    const stock = (product?.stockRef as IStock)?.quantity ?? 0;
-    if (cart.items[itemIndex].quantity >= stock)
-      return void res.status(400).json({ message: "Cannot exceed available stock" });
-
-    cart.items[itemIndex].quantity += 1;
-    cart.items[itemIndex].priceAtAddition = product?.price ?? cart.items[itemIndex].priceAtAddition;
-
-    cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.priceAtAddition, 0);
-    await cart.save();
-
-    res.json({ message: "Quantity increased", cart });
-  } catch (err) {
-    res.status(500).json({ message: "Error increasing quantity", err });
+  const cart = await getCartForUser(userId!, true);
+  if (!cart) {
+    res.status(404).json({ message: "Cart not found" });
+    return;
   }
+
+  const index = cart.items.findIndex(item => {
+    const product = item.product;
+    return (
+      typeof product === "object" &&
+      "_id" in product &&
+      (product._id as Types.ObjectId).toString() === productId
+    );
+  });
+  
+  if (index === -1) {
+    res.status(404).json({ message: "Item not found" });
+    return;
+  }
+
+  const product = await getProductWithStock(productId);
+  const stock = (product?.stockRef as IStock)?.quantity ?? 0;
+
+  if (cart.items[index].quantity >= stock) {
+    res.status(400).json({ message: "Stock limit reached" });
+    return;
+  }
+
+  cart.items[index].quantity += 1;
+  cart.items[index].priceAtAddition = product?.price ?? cart.items[index].priceAtAddition;
+  cart.items[index].totalPriceAtAddition = cart.items[index].quantity * cart.items[index].priceAtAddition;
+
+  cart.totalPrice = recalculateTotal(cart.items);
+  await cart.save();
+
+  res.status(200).json({ message: "Quantity increased", cart });
 };
 
+// ✅ Ürün adedini azalt
 export const decreaseQuantity = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const userId = req.user?.id;
-    const { productId } = req.params;
+  const userId = req.user?.id;
+  const { productId } = req.params;
 
-    if (!userId || !productId) return void res.status(400).json({ message: "Missing user or product ID" });
-
-    const cart = await Cart.findOne({ user: userId }).populate("items.product");
-    if (!cart) return void res.status(404).json({ message: "Cart not found" });
-
-    const itemIndex = cart.items.findIndex((item) => {
-      const product = item.product as IProduct;
-      return product && (product._id as Types.ObjectId).equals(new Types.ObjectId(productId));
-    });
-
-    if (itemIndex === -1) return void res.status(404).json({ message: "Item not found" });
-
-    if (cart.items[itemIndex].quantity > 1) {
-      cart.items[itemIndex].quantity -= 1;
-    } else {
-      cart.items.splice(itemIndex, 1);
-    }
-
-    cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.priceAtAddition, 0);
-    await cart.save();
-
-    res.json({ message: "Quantity decreased", cart });
-  } catch (err) {
-    res.status(500).json({ message: "Error decreasing quantity", err });
+  const cart = await getCartForUser(userId!, true);
+  if (!cart) {
+    res.status(404).json({ message: "Cart not found" });
+    return;
   }
+
+  const index = cart.items.findIndex(item => {
+    const product = item.product;
+    return (
+      typeof product === "object" &&
+      "_id" in product &&
+      (product._id as Types.ObjectId).toString() === productId
+    );
+  });
+  
+  if (index === -1) {
+    res.status(404).json({ message: "Item not found" });
+    return;
+  }
+
+  if (cart.items[index].quantity > 1) {
+    cart.items[index].quantity -= 1;
+    cart.items[index].totalPriceAtAddition = cart.items[index].quantity * cart.items[index].priceAtAddition;
+  } else {
+    cart.items.splice(index, 1);
+  }
+
+  cart.totalPrice = recalculateTotal(cart.items);
+  await cart.save();
+
+  res.status(200).json({ message: "Quantity decreased", cart });
 };
 
+// ✅ Ürünü sepetten çıkar
 export const removeFromCart = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const userId = req.user?.id;
-    const { productId } = req.params;
+  const userId = req.user?.id;
+  const { productId } = req.params;
 
-    if (!userId || !productId)
-      return void res.status(400).json({ message: "User ID and Product ID are required" });
-
-    const cart = await Cart.findOne({ user: userId }).populate("items.product");
-    if (!cart) return void res.status(404).json({ message: "Cart not found" });
-
-    const itemIndex = cart.items.findIndex((item) => {
-      const product = item.product as IProduct;
-      return product && (product._id as Types.ObjectId).equals(new Types.ObjectId(productId));
-    });
-
-    if (itemIndex === -1)
-      return void res.status(404).json({ message: "Item not found in cart" });
-
-    cart.items.splice(itemIndex, 1);
-
-    cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.priceAtAddition, 0);
-    await cart.save();
-
-    res.json({ message: "Item removed from cart", cart });
-  } catch (err) {
-    res.status(500).json({ message: "Error removing item", err });
+  const cart = await getCartForUser(userId!, true);
+  if (!cart) {
+    res.status(404).json({ message: "Cart not found" });
+    return;
   }
+
+  const index = cart.items.findIndex(item => {
+    const product = item.product;
+    return (
+      typeof product === "object" &&
+      "_id" in product &&
+      (product._id as Types.ObjectId).toString() === productId
+    );
+  });
+  
+  if (index === -1) {
+    res.status(404).json({ message: "Item not found" });
+    return;
+  }
+
+  cart.items.splice(index, 1);
+  cart.totalPrice = recalculateTotal(cart.items);
+  await cart.save();
+
+  res.status(200).json({ message: "Item removed", cart });
 };
 
+// ✅ Sepeti temizle
 export const clearCart = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const userId = req.user?.id;
-    if (!userId)
-      return void res.status(400).json({ message: "User ID is required" });
+  const userId = req.user?.id;
 
-    const cart = await Cart.findOne({ user: userId });
-    if (!cart) return void res.status(404).json({ message: "Cart not found" });
-    if (cart.items.length === 0) return void res.status(400).json({ message: "Cart is already empty" });
-
-    cart.items.splice(0, cart.items.length);
-    cart.totalPrice = 0;
-    await cart.save();
-
-    res.json({ message: "Cart cleared", cart });
-  } catch (err) {
-    res.status(500).json({ message: "Error clearing cart", err });
+  const cart = await getCartForUser(userId!);
+  if (!cart) {
+    res.status(404).json({ message: "Cart not found" });
+    return;
   }
+
+  if (cart.items.length === 0) {
+    res.status(400).json({ message: "Cart is already empty" });
+    return;
+  }
+
+  cart.items = [];
+  cart.totalPrice = 0;
+  await cart.save();
+
+  res.status(200).json({ message: "Cart cleared", cart });
 };

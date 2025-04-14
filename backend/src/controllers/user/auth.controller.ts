@@ -1,9 +1,14 @@
+// src/controllers/user/auth.controller.ts
+
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import User from "../../models/user.models";
-import { generateToken } from "../../utils/token";
-import { hashPassword, comparePasswords } from "../../utils/authUtils";
-import { setTokenCookie, clearTokenCookie } from "../../utils/cookie";
+import { loginAndSetToken, logoutAndClearToken, hashNewPassword, checkPassword } from "../../services/authService";
+import {
+  validateJsonField,
+  validateEmailFormat,
+  isValidRole,
+} from "../../utils/validation";
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -22,35 +27,50 @@ export const registerUser = asyncHandler(async (req: Request, res: Response): Pr
     notifications = '{"emailNotifications": true, "smsNotifications": false}',
   } = req.body;
 
-  let parsedAddresses = [],
-      parsedSocialMedia = {},
-      parsedNotifications = {};
-
-  try {
-    parsedAddresses = typeof addresses === "string" ? JSON.parse(addresses) : addresses;
-    parsedSocialMedia = typeof socialMedia === "string" ? JSON.parse(socialMedia) : socialMedia;
-    parsedNotifications = typeof notifications === "string" ? JSON.parse(notifications) : notifications;
-  } catch {
-    res.status(400).json({ message: "Invalid JSON format" });
+  // 🔐 Email kontrolü
+  if (!validateEmailFormat(email)) {
+    res.status(400).json({ message: "Invalid email format" });
     return;
   }
 
+  // 🔐 Şifre kontrolü
   if (!password) {
     res.status(400).json({ message: "Password is required" });
     return;
   }
 
+  // 🔐 Rol kontrolü
+  const normalizedRole = role.toLowerCase();
+  if (!isValidRole(normalizedRole)) {
+    res.status(400).json({ message: "Invalid user role" });
+    return;
+  }
+
+  // ✅ JSON alanlarını parse et
+  let parsedAddresses, parsedSocialMedia, parsedNotifications;
+  try {
+    parsedAddresses = validateJsonField(addresses, "addresses");
+    parsedSocialMedia = validateJsonField(socialMedia, "socialMedia");
+    parsedNotifications = validateJsonField(notifications, "notifications");
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+    return;
+  }
+
+  // ✅ Profil görseli
   const profileImage = req.file
     ? `${BASE_URL}/uploads/profile-images/${req.file.filename}`
     : "https://via.placeholder.com/150";
 
-  const hashedPassword = await hashPassword(password);
+  // ✅ Şifreyi hashle
+  const hashedPassword = await hashNewPassword(password);
 
+  // ✅ Kullanıcıyı oluştur
   const user = await User.create({
     name,
     email,
     password: hashedPassword,
-    role: role.toLowerCase(),
+    role: normalizedRole,
     phone,
     addresses: parsedAddresses,
     profileImage,
@@ -60,8 +80,8 @@ export const registerUser = asyncHandler(async (req: Request, res: Response): Pr
     notifications: parsedNotifications,
   });
 
-  const token = generateToken({ id: String(user._id), role: user.role });
-  setTokenCookie(res, token); // ✅
+  // ✅ Token oluştur ve cookie’ye yaz
+  await loginAndSetToken(res, user.id, user.role);
 
   res.status(201).json({
     success: true,
@@ -80,20 +100,18 @@ export const registerUser = asyncHandler(async (req: Request, res: Response): Pr
 export const loginUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
+  if (!validateEmailFormat(email)) {
+    res.status(400).json({ message: "Invalid email format" });
+    return;
+  }
+
   const user = await User.findOne({ email }).select("+password");
-  if (!user) {
-    res.status(401).json({ message: "Invalid credentials" });
+  if (!user || !(await checkPassword(password, user.password))) {
+    res.status(401).json({ message: "Invalid email or password" });
     return;
   }
 
-  const isMatch = await comparePasswords(password, user.password);
-  if (!isMatch) {
-    res.status(401).json({ message: "Incorrect password" });
-    return;
-  }
-
-  const token = generateToken({ id: String(user._id), role: user.role });
-  setTokenCookie(res, token); // ✅
+  await loginAndSetToken(res, user.id, user.role);
 
   res.status(200).json({
     success: true,
@@ -113,20 +131,20 @@ export const changePassword = asyncHandler(async (req: Request, res: Response): 
   const { currentPassword, newPassword } = req.body;
 
   const user = await User.findById(req.user!.id).select("+password");
-  if (!user || !(await comparePasswords(currentPassword, user.password))) {
+  if (!user || !(await checkPassword(currentPassword, user.password))) {
     res.status(401).json({ message: "Invalid current password" });
     return;
   }
 
-  user.password = await hashPassword(newPassword);
+  user.password = await hashNewPassword(newPassword);
   await user.save();
 
   res.status(200).json({ success: true, message: "Password updated successfully" });
 });
 
 // ✅ Logout
-export const logoutUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  clearTokenCookie(res); // ✅
+export const logoutUser = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
+  logoutAndClearToken(res);
   res.status(200).json({
     success: true,
     message: "Logout successful",

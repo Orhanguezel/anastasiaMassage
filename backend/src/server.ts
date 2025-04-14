@@ -1,13 +1,16 @@
+// src/server.ts
 import express, { Express } from "express";
+import http from "http";
 import cors from "cors";
-//import rateLimit from "express-rate-limit";
+// import rateLimit from "express-rate-limit";
 import "dotenv/config";
 import connectDB from "./config/connect";
 import routes from "./routes";
 import cookieParser from "cookie-parser";
-
+import { initializeSocket} from "./socket"; 
 
 const app: Express = express();
+const server = http.createServer(app); // ⬅️ Socket için http server gerekli
 
 connectDB();
 
@@ -18,10 +21,9 @@ const Limiter = rateLimit({
   message: "Too many requests, please try again later.",
 });
 */
-// 🥇 Cookie parser en başta olmalı
+
 app.use(cookieParser());
 
-// 🥈 CORS
 const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 app.use(cors({
   origin: function (origin, callback) {
@@ -32,16 +34,19 @@ app.use(cors({
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, 
+  credentials: true,
 }));
 
-// 🥉 Diğer Middlewares
 app.use(express.json({ strict: false }));
-//app.use(Limiter);
+// app.use(Limiter);
+
 app.use("/uploads", express.static("uploads"));
 app.use("/api", routes);
 
-const port = process.env.PORT || 5011;
-app.listen(port, () => {
+// 🎯 Socket.IO başlat
+initializeSocket(server);
+
+const port = process.env.PORT || 5012;
+server.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

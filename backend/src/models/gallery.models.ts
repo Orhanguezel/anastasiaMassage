@@ -1,3 +1,5 @@
+// src/models/gallery.models.ts
+
 import { Schema, model, Document } from "mongoose";
 
 export interface IGalleryItem extends Document {
@@ -5,13 +7,18 @@ export interface IGalleryItem extends Document {
   image: string;
   type: "image" | "video";
   createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const gallerySchema = new Schema<IGalleryItem>(
   {
-    title: { type: String },
+    title: { type: String, trim: true },
     image: { type: String, required: true },
-    type: { type: String, enum: ["image", "video"], default: "image" },
+    type: {
+      type: String,
+      enum: ["image", "video"],
+      default: "image",
+    },
   },
   { timestamps: true }
 );

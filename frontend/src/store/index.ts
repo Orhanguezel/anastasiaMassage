@@ -21,6 +21,7 @@ import stockReducer from "./stockSlice";
 import dashboardReducer from "./dashboardSlice";
 import accountReducer from "./accountSlice";
 import contactReducer from "./contactMessageSlice";
+import chatReducer from "./chatSlice";
 
 
 export const store = configureStore({
@@ -46,6 +47,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     account: accountReducer,
     contactMessage:contactReducer,
+    chat: chatReducer,
   },
 });
 

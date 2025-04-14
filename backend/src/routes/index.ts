@@ -20,6 +20,8 @@ import paymentRoutes from "./payment.routes";
 import accountRoutes from "./account.routes";
 import servicesRoutes from "./services.routes";
 import emailRoutes from "./email.routes";
+import categoryRoutes from "./category.routes";
+import chatRoutes from "./chat.routes";
 
 
 
@@ -44,6 +46,8 @@ router.use("/payments", paymentRoutes);
 router.use("/account", accountRoutes);
 router.use("/services", servicesRoutes);
 router.use("/emails", emailRoutes);
+router.use("/categories", categoryRoutes);
+router.use("/chat", chatRoutes);
 
 
 export default router;

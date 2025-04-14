@@ -1,16 +1,14 @@
-// src/controllers/product.controller.ts
-
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import Product from "../models/product.models";
 import { BASE_URL } from "../middleware/uploadMiddleware";
 
-// ✅ Create Product
+// 🔹 Create Product
 export const createProduct = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { name, description, price, category, tags = [], stockRef } = req.body;
 
   if (!name || !price || !category) {
-    res.status(400).json({ message: "Missing required fields" });
+    res.status(400).json({ message: "Missing required fields: name, price or category." });
     return;
   }
 
@@ -31,54 +29,76 @@ export const createProduct = asyncHandler(async (req: Request, res: Response): P
   res.status(201).json({ message: "Product created successfully", product });
 });
 
-// ✅ Get All Products
-export const getAllProducts = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
-  const products = await Product.find().populate("stockRef").sort({ createdAt: -1 });
+// 🔹 Get All Products with Filters + category populate
+export const getAllProducts = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { category, isActive, tags, name } = req.query;
+  const filter: any = {};
+
+  if (category) filter.category = category;
+  if (isActive !== undefined) filter.isActive = isActive === "true";
+  if (tags) {
+    const tagsArray = (tags as string).split(",").map(tag => tag.trim());
+    filter.tags = { $in: tagsArray };
+  }
+  if (name) {
+    filter.name = { $regex: new RegExp(name as string, "i") };
+  }
+
+  const products = await Product.find(filter)
+    .populate("stockRef")
+    .populate("category") // <--- burası eklendi
+    .sort({ createdAt: -1 });
+
   res.status(200).json(products);
 });
 
-// ✅ Get Product by ID
+// 🔹 Get Single Product by ID + category populate
 export const getProductById = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const product = await Product.findById(req.params.id).populate("stockRef");
+  const product = await Product.findById(req.params.id)
+    .populate("stockRef")
+    .populate("category"); // <--- burası eklendi
+
   if (!product) {
     res.status(404).json({ message: "Product not found" });
     return;
   }
-  res.json(product);
+
+  res.status(200).json(product);
 });
 
-// ✅ Update Product
+// 🔹 Update Product
 export const updateProduct = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { name, description, price, category, tags, stockRef } = req.body;
-
   const product = await Product.findById(req.params.id);
+
   if (!product) {
     res.status(404).json({ message: "Product not found" });
     return;
   }
 
-  product.name = name || product.name;
-  product.description = description || product.description;
+  product.name = name ?? product.name;
+  product.description = description ?? product.description;
   product.price = price ?? product.price;
-  product.category = category || product.category;
-  product.tags = tags || product.tags;
-  product.stockRef = stockRef || product.stockRef;
+  product.category = category ?? product.category;
+  product.tags = tags ?? product.tags;
+  product.stockRef = stockRef ?? product.stockRef;
 
   if (req.file) {
     product.image = `${BASE_URL}/uploads/product-images/${req.file.filename}`;
   }
 
   await product.save();
-  res.json({ message: "Product updated successfully", product });
+  res.status(200).json({ message: "Product updated successfully", product });
 });
 
-// ✅ Delete Product
+// 🔹 Delete Product
 export const deleteProduct = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const product = await Product.findByIdAndDelete(req.params.id);
+
   if (!product) {
-    res.status(404).json({ message: "Product not found" });
+    res.status(404).json({ message: "Product not found or already deleted" });
     return;
   }
 
-  res.json({ message: "Product deleted successfully" });
+  res.status(200).json({ message: "Product deleted successfully" });
 });

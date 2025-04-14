@@ -1,9 +1,9 @@
 // src/models/coupon.models.ts
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
 export interface ICoupon extends Document {
   code: string;
-  discount: number;
+  discount: number; // e.g. 10 = %10
   isActive: boolean;
   expiresAt: Date;
   createdAt?: Date;
@@ -12,13 +12,34 @@ export interface ICoupon extends Document {
 
 const couponSchema = new Schema<ICoupon>(
   {
-    code: { type: String, required: true, unique: true },
-    discount: { type: Number, required: true }, // Örn: 10 = %10 indirim
-    isActive: { type: Boolean, default: true },
-    expiresAt: { type: Date, required: true },
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      uppercase: true,
+    },
+    discount: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 100,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    expiresAt: {
+      type: Date,
+      required: true,
+      validate: {
+        validator: (value: Date) => value > new Date(),
+        message: "Expiration date must be in the future.",
+      },
+    },
   },
   { timestamps: true }
 );
 
-export default model<ICoupon>("Coupon", couponSchema);
-
+const Coupon: Model<ICoupon> = model<ICoupon>("Coupon", couponSchema);
+export default Coupon;

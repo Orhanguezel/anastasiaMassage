@@ -11,9 +11,9 @@ export interface IFAQ extends Document {
 
 const faqSchema = new Schema<IFAQ>(
   {
-    question: { type: String, required: true },
-    answer: { type: String, required: true },
-    category: { type: String },
+    question: { type: String, required: true, trim: true },
+    answer: { type: String, required: true, trim: true },
+    category: { type: String, trim: true },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }

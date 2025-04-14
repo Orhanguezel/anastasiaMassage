@@ -46,6 +46,7 @@ export interface IUser extends Document {
   createdAt?: Date;
   updatedAt?: Date;
 
+  // Metodlar
   comparePassword(candidatePassword: string): Promise<boolean>;
   isPasswordHashed(): boolean;
 }
@@ -96,21 +97,19 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// 🔐 Şifreyi kaydetmeden önce hashle (dış fonksiyon)
+// 🔐 Parola hashleme - sadece parola değiştiyse ve zaten hash değilse
 userSchema.pre<IUser>("save", async function (next) {
-  if (!this.isModified("password") || isPasswordHashed(this.password)) {
-    return next();
-  }
-
   try {
-    this.password = await hashPassword(this.password);
+    if (this.isModified("password") && !isPasswordHashed(this.password)) {
+      this.password = await hashPassword(this.password);
+    }
     next();
   } catch (error) {
     next(error as Error);
   }
 });
 
-// 🔑 Şifre doğrulama
+// 🔑 Parola karşılaştırma
 userSchema.methods.comparePassword = async function (
   this: IUser,
   candidatePassword: string
@@ -118,7 +117,7 @@ userSchema.methods.comparePassword = async function (
   return comparePasswords(candidatePassword, this.password);
 };
 
-// 🔍 Hash kontrol
+// 🔍 Parolanın hash'li olup olmadığını kontrol eder
 userSchema.methods.isPasswordHashed = function (this: IUser): boolean {
   return isPasswordHashed(this.password);
 };

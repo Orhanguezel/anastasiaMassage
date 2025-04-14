@@ -6,14 +6,15 @@ export interface IFeedback extends Document {
   message: string;
   rating?: number;
   isPublished: boolean;
-  createdAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const feedbackSchema = new Schema<IFeedback>(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    message: { type: String, required: true },
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true },
+    message: { type: String, required: true, trim: true },
     rating: { type: Number, min: 1, max: 5 },
     isPublished: { type: Boolean, default: false },
   },

@@ -1,6 +1,8 @@
+// src/store/accountSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import apiCall from "@/lib/apiCall";
 
+// 🛠️ Type tanımları
 interface NotificationSettings {
   emailNotifications: boolean;
   smsNotifications: boolean;
@@ -37,41 +39,7 @@ const initialState: AccountState = {
   successMessage: null,
 };
 
-// Thunks
-export const fetchMyProfile = createAsyncThunk(
-  "account/fetchMyProfile",
-  async (_, thunkAPI) =>
-    await apiCall("get", "/account/profile", null, thunkAPI.rejectWithValue)
-);
-
-export const updateMyProfile = createAsyncThunk(
-  "account/updateMyProfile",
-  async (data: { name?: string; email?: string; phone?: string }, thunkAPI) =>
-    await apiCall("put", "/account/profile", data, thunkAPI.rejectWithValue)
-);
-
-export const updateMyPassword = createAsyncThunk(
-  "account/updateMyPassword",
-  async (data: { currentPassword: string; newPassword: string }, thunkAPI) =>
-    await apiCall("put", "/account/password", data, thunkAPI.rejectWithValue)
-);
-
-export const updateNotificationSettings = createAsyncThunk(
-  "account/updateNotificationSettings",
-  async (data: NotificationSettings, thunkAPI) =>
-    await apiCall(
-      "put",
-      "/account/notifications",
-      data,
-      thunkAPI.rejectWithValue
-    )
-);
-
-export const updateSocialMediaLinks = createAsyncThunk(
-  "account/updateSocialMediaLinks",
-  async (data: SocialMediaLinks, thunkAPI) =>
-    await apiCall("put", "/account/social", data, thunkAPI.rejectWithValue)
-);
+// 🔄 Async işlemler (Thunk'lar)
 
 // 👤 Aktif kullanıcıyı getir
 export const fetchCurrentUser = createAsyncThunk(
@@ -80,7 +48,35 @@ export const fetchCurrentUser = createAsyncThunk(
     await apiCall("get", "/account/me", null, thunkAPI.rejectWithValue)
 );
 
-// Slice
+// Profil bilgileri güncelleme
+export const updateMyProfile = createAsyncThunk(
+  "account/updateMyProfile",
+  async (data: { name?: string; email?: string; phone?: string }, thunkAPI) =>
+    await apiCall("put", "/account/me/update", data, thunkAPI.rejectWithValue)
+);
+
+// Şifre güncelleme
+export const updateMyPassword = createAsyncThunk(
+  "account/updateMyPassword",
+  async (data: { currentPassword: string; newPassword: string }, thunkAPI) =>
+    await apiCall("put", "/account/me/password", data, thunkAPI.rejectWithValue)
+);
+
+// Bildirim ayarlarını güncelleme
+export const updateNotificationSettings = createAsyncThunk(
+  "account/updateNotificationSettings",
+  async (data: NotificationSettings, thunkAPI) =>
+    await apiCall("patch", "/account/me/notifications", data, thunkAPI.rejectWithValue)
+);
+
+// Sosyal medya linklerini güncelleme
+export const updateSocialMediaLinks = createAsyncThunk(
+  "account/updateSocialMediaLinks",
+  async (data: SocialMediaLinks, thunkAPI) =>
+    await apiCall("patch", "/account/me/social", data, thunkAPI.rejectWithValue)
+);
+
+// 🔧 Slice tanımı
 const accountSlice = createSlice({
   name: "account",
   initialState,
@@ -102,14 +98,7 @@ const accountSlice = createSlice({
     };
 
     builder
-      .addCase(fetchMyProfile.pending, loading)
-      .addCase(fetchMyProfile.fulfilled, (state, action) => {
-        state.loading = false;
-        state.profile = action.payload;
-      })
-      .addCase(fetchMyProfile.rejected, failed);
-
-    builder
+      // Profil güncelleme
       .addCase(updateMyProfile.pending, loading)
       .addCase(updateMyProfile.fulfilled, (state, action) => {
         state.loading = false;
@@ -118,6 +107,7 @@ const accountSlice = createSlice({
       })
       .addCase(updateMyProfile.rejected, failed);
 
+    // Şifre güncelleme
     builder
       .addCase(updateMyPassword.pending, loading)
       .addCase(updateMyPassword.fulfilled, (state, action) => {
@@ -126,6 +116,7 @@ const accountSlice = createSlice({
       })
       .addCase(updateMyPassword.rejected, failed);
 
+    // Bildirim güncelleme
     builder
       .addCase(updateNotificationSettings.pending, loading)
       .addCase(updateNotificationSettings.fulfilled, (state, action) => {
@@ -136,6 +127,7 @@ const accountSlice = createSlice({
       })
       .addCase(updateNotificationSettings.rejected, failed);
 
+    // Sosyal medya güncelleme
     builder
       .addCase(updateSocialMediaLinks.pending, loading)
       .addCase(updateSocialMediaLinks.fulfilled, (state, action) => {
@@ -146,8 +138,8 @@ const accountSlice = createSlice({
       })
       .addCase(updateSocialMediaLinks.rejected, failed);
 
+    // Aktif kullanıcıyı getir
     builder
-      // Fetch Current User
       .addCase(fetchCurrentUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -163,5 +155,6 @@ const accountSlice = createSlice({
   },
 });
 
+// Exportlar
 export const { clearAccountMessages } = accountSlice.actions;
 export default accountSlice.reducer;

@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchCurrentUser } from "@/store/accountSlice";
 import { loginUser } from "@/store/user/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { RootState } from "@/store";
+import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const { t } = useTranslation();
 
-  const { loading, user } = useSelector((state: RootState) => state.auth); 
+  const { loading, user } = useAppSelector((state) => state.auth);
 
   const [form, setForm] = useState({ email: "", password: "" });
 
@@ -24,13 +24,17 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await dispatch(loginUser(form) as any);
-    if (result.meta.requestStatus === "fulfilled") {
+    const result = await dispatch(loginUser(form));
+
+    if (loginUser.fulfilled.match(result)) {
+      await dispatch(fetchCurrentUser());
       toast.success(t("login.success"));
       router.push("/admin");
     } else {
       toast.error(t("login.error"));
     }
+
+    setForm({ email: "", password: "" });
   };
 
   useEffect(() => {

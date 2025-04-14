@@ -1,15 +1,16 @@
 // src/controllers/order.controller.ts
+
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import Order from "../models/order.models";
+import Order, { IOrderItem, OrderStatus } from "../models/order.models";
 import Product from "../models/product.models";
 import Stock from "../models/stock.models";
-import { sendEmail } from "../services/emailService";
 import User from "../models/user.models";
-import { IOrderItem } from "../models/order.models";
-import { orderConfirmationTemplate } from "../templates/orderConfirmation";
 import Notification from "../models/notification.models";
+import { sendEmail } from "../services/emailService";
+import { orderConfirmationTemplate } from "../templates/orderConfirmation";
 
+// ✅ Sipariş oluştur
 export const createOrder = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { items, shippingAddress, totalPrice }: {
     items: IOrderItem[];
@@ -22,6 +23,7 @@ export const createOrder = asyncHandler(async (req: Request, res: Response): Pro
     return;
   }
 
+  // 🧾 Stok kontrolü ve azaltma
   for (const item of items) {
     const product = await Product.findById(item.product);
     if (!product || !product.stockRef) {
@@ -39,6 +41,7 @@ export const createOrder = asyncHandler(async (req: Request, res: Response): Pro
     await stock.save();
   }
 
+  // 🧾 Sipariş oluştur
   const order = await Order.create({
     user: req.user?._id || null,
     items,
@@ -47,8 +50,9 @@ export const createOrder = asyncHandler(async (req: Request, res: Response): Pro
     paymentMethod: "cash_on_delivery",
   });
 
+  // 📧 Mail içerikleri
   const itemsList = items
-    .map((item: IOrderItem) => `• Produkt ID: ${item.product} - Menge: ${item.quantity}`)
+    .map(item => `• Produkt ID: ${item.product} - Menge: ${item.quantity}`)
     .join("<br/>");
 
   const user = req.user ? await User.findById(req.user._id).select("email") : null;
@@ -73,50 +77,46 @@ export const createOrder = asyncHandler(async (req: Request, res: Response): Pro
     </p>
   `;
 
-  await sendEmail({
-    to: customerEmail,
-    subject: "Bestellbestätigung – Anastasia Massage",
-    html: htmlToCustomer,
-  });
+  // 📧 Mail gönderimi
+  await Promise.all([
+    sendEmail({
+      to: customerEmail,
+      subject: "Bestellbestätigung – Anastasia Massage",
+      html: htmlToCustomer,
+    }),
+    sendEmail({
+      to: process.env.SMTP_FROM || "admin@example.com",
+      subject: "Neue Bestellung – Anastasia Massage",
+      html: htmlToAdmin,
+    }),
+  ]);
 
-  await sendEmail({
-    to: process.env.SMTP_FROM || "admin@example.com",
-    subject: "Neue Bestellung – Anastasia Massage",
-    html: htmlToAdmin,
+  // 📣 Bildirim oluştur
+  void Notification.create({
+    title: "Neue Bestellung erhalten",
+    message: `Ein Kunde hat eine neue Bestellung aufgegeben. Gesamtpreis: €${totalPrice.toFixed(2)}`,
+    type: "success",
+    user: req.user?._id || null,
   });
 
   res.status(201).json({
     message: "Order created successfully.",
     order,
   });
-  
-
-  await Notification.create({
-    title: "Neue Bestellung erhalten",
-    message: `Ein Kunde hat eine neue Bestellung aufgegeben. Gesamtpreis: €${totalPrice.toFixed(2)}`,
-    type: "success",
-    user: null,
-  });
-
 });
 
-
-
-// ✅ Get All Orders (Admin)
+// ✅ Tüm siparişleri getir (Admin)
 export const getAllOrders = asyncHandler(async (_req: Request, res: Response): Promise<void> => {
   const orders = await Order.find()
     .populate("user", "name email")
     .sort({ createdAt: -1 });
 
   res.status(200).json(orders);
-  console.log("🟢 Orders response:", orders[0]);
-
 });
 
-// ✅ Mark Order as Delivered
+// ✅ Siparişi teslim edildi olarak işaretle
 export const markOrderAsDelivered = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const order = await Order.findById(req.params.id);
-
   if (!order) {
     res.status(404).json({ message: "Order not found" });
     return;
@@ -129,18 +129,18 @@ export const markOrderAsDelivered = asyncHandler(async (req: Request, res: Respo
   res.json({ message: "Order marked as delivered" });
 });
 
-// ✅ Update Order Status
+// ✅ Sipariş durumunu güncelle
 export const updateOrderStatus = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { status } = req.body as { status: OrderStatus };
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    res.status(404).json({ message: "Order not found",order });
+    res.status(404).json({ message: "Order not found" });
     return;
   }
 
-  order.set({ ...req.body });
+  order.status = status;
   await order.save();
 
   res.json({ success: true, message: "Order status updated", order });
 });
-

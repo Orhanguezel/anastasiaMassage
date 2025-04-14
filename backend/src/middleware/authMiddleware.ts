@@ -1,41 +1,30 @@
 // src/middleware/authMiddleware.ts
-import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user.models";
+import { getTokenFromRequest } from "../utils/authHelpers";
+import { verifyToken } from "../utils/token";
 
 // 🔐 Kullanıcıyı doğrulayan middleware
 export const authenticate = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      let token: string | undefined;
+      const token = getTokenFromRequest(req);
 
-      // 1. Authorization header'dan al
-      if (req.headers.authorization?.startsWith("Bearer ")) {
-        token = req.headers.authorization.split(" ")[1];
-      }
-
-      // 2. Cookie'den al
-      if (!token && req.cookies?.accessToken) {
-        token = req.cookies.accessToken;
-      }
-
-      // 3. Token yoksa hata
       if (!token) {
         res.status(401).json({ success: false, message: "Authorization token missing" });
         return;
       }
 
-      // 4. Token çözümle
-      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+      const decoded = verifyToken(token);
 
       if (!decoded?.id) {
         res.status(401).json({ success: false, message: "Invalid token payload" });
         return;
       }
 
-      // 5. Kullanıcıyı veritabanından al
       const user = await User.findById(decoded.id).select("-password");
+
       if (!user) {
         res.status(401).json({ success: false, message: "User not found" });
         return;
@@ -46,10 +35,9 @@ export const authenticate = asyncHandler(
         return;
       }
 
-      // 6. req.user objesini ayarla (controller'da kullanılsın)
       req.user = {
-        id: user.id.toString(),         // JWT içindeki ID
-        _id: user.id.toString(),        // Mongoose işlemleri için
+        id: user.id.toString(),
+        _id: user.id.toString(),
         role: user.role,
         email: user.email,
         name: user.name,
